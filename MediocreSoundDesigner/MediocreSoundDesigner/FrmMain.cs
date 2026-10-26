@@ -207,7 +207,7 @@ public partial class FrmMain : Form {
     panTracks.Width = ClientSize.Width - (PADDING * 2);
 
     int top = 0;
-    foreach (Track track in trackManager.Tracks) {
+    foreach (Track track in trackManager?.Tracks ?? []) {
       track.PanDrawSamples.Left = 0;
       track.PanDrawSamples.Width = panTracks.Width;
       track.PanDrawSamples.Height = (panTracks.Height / trackManager.Tracks.Count) - 1;
