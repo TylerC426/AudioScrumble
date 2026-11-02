@@ -36,6 +36,7 @@ public class Track : IDisposable {
   public float Volume { get; private set; }
   private string tempFilePath => Path.Combine(Path.GetTempPath(), "MediocreSoundDesigner", "temp.wav");
   public PlaybackState State => outputDevice?.PlaybackState ?? PlaybackState.Stopped;
+  public string TrackName { get; set; }
 
   // ctor
   public Track(string file) {
@@ -57,6 +58,7 @@ public class Track : IDisposable {
     this.channels = fileReader.WaveFormat.Channels;
     this.sampleRate = fileReader.WaveFormat.SampleRate;
     IsDisabled = false;
+    TrackName = Path.GetFileNameWithoutExtension(file); // auto sets track's name to that of file
   }
   public Track(float[] samples) {
     this.samples = samples;
@@ -71,6 +73,7 @@ public class Track : IDisposable {
     this.channels = 1;
     this.sampleRate = 0;
     IsDisabled = false;
+    TrackName = "New Track";
   }
   public void LinkPanels(Panel panDrawSamples, Panel panContainer) {
     this.PanDrawSamples = panDrawSamples;
