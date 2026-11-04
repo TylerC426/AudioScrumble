@@ -46,6 +46,7 @@
             menuGenRecord = new ToolStripMenuItem();
             menuGenNoise = new ToolStripMenuItem();
             menuGenGradientNoise = new ToolStripMenuItem();
+            helpToolStripMenuItem = new ToolStripMenuItem();
             btnPlay = new Button();
             tmrUpdate = new System.Windows.Forms.Timer(components);
             sfdSaveFile = new SaveFileDialog();
@@ -92,7 +93,7 @@
             // 
             // menu
             // 
-            menu.Items.AddRange(new ToolStripItem[] { menuFile, menuEdit, menuGen });
+            menu.Items.AddRange(new ToolStripItem[] { menuFile, menuEdit, menuGen, helpToolStripMenuItem });
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
             menu.Size = new Size(1604, 24);
@@ -165,23 +166,30 @@
             // menuGenRecord
             // 
             menuGenRecord.Name = "menuGenRecord";
-            menuGenRecord.Size = new Size(152, 22);
+            menuGenRecord.Size = new Size(180, 22);
             menuGenRecord.Text = "Record...";
             menuGenRecord.Click += menuGenRecord_Click;
             // 
             // menuGenNoise
             // 
             menuGenNoise.Name = "menuGenNoise";
-            menuGenNoise.Size = new Size(152, 22);
+            menuGenNoise.Size = new Size(180, 22);
             menuGenNoise.Text = "Noise";
             menuGenNoise.Click += menuGenNoise_Click;
             // 
             // menuGenGradientNoise
             // 
             menuGenGradientNoise.Name = "menuGenGradientNoise";
-            menuGenGradientNoise.Size = new Size(152, 22);
+            menuGenGradientNoise.Size = new Size(180, 22);
             menuGenGradientNoise.Text = "Gradient Noise";
             menuGenGradientNoise.Click += menuGenGradientNoise_Click;
+            // 
+            // helpToolStripMenuItem
+            // 
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            helpToolStripMenuItem.Size = new Size(53, 20);
+            helpToolStripMenuItem.Text = "&Help...";
+            helpToolStripMenuItem.Click += helpToolStripMenuItem_Click;
             // 
             // btnPlay
             // 
@@ -281,6 +289,7 @@
     private ToolStripMenuItem menuEditEliminateSilence;
     private Label lblPlayhead;
     private ToolStripMenuItem menuGenRecord;
-        private Button LoopEnableButton;
+    private ToolStripMenuItem helpToolStripMenuItem;
+    private Button LoopEnableButton;
     }
 }

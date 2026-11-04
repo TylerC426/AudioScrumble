@@ -41,7 +41,12 @@ public partial class FrmMain : Form {
     // position and size the interface's controls
     UpdateSizes();
     
+    // looping needs to be false on startup, only to be changed by the user later on using the button option for it
     isLooping = false;
+    
+    // setup and open the help menu on startup
+    FrmHelpMenu helpFrm = new();
+    helpFrm.ShowDialog();
   }
 
   // GUI controls
@@ -521,6 +526,7 @@ public partial class FrmMain : Form {
   }
   
   // looping feature methods
+  // handles changes to isLooping when button is clicked
   private void LoopEnableButton_Click(object sender, EventArgs e)
   {
     if (isLooping)
@@ -535,6 +541,7 @@ public partial class FrmMain : Form {
     }
   }
 
+  // plays tracks on loop as long as isLooping = true
   private async Task LoopTracks()
   {
     while (isLooping)
@@ -545,5 +552,12 @@ public partial class FrmMain : Form {
       }
       await Task.Delay(10);
     }
+  }
+  
+  // Shows the "Help" menu after clicking the associated button.
+  private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+  {
+    FrmHelpMenu frm = new();
+    frm.ShowDialog();
   }
 }
