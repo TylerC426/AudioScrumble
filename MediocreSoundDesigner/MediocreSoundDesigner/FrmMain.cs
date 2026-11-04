@@ -11,6 +11,7 @@ public partial class FrmMain : Form {
 
   // fields
   private TrackManager trackManager;
+  private bool isLooping;
 
   // ctor
   public FrmMain() {
@@ -39,6 +40,8 @@ public partial class FrmMain : Form {
 
     // position and size the interface's controls
     UpdateSizes();
+    
+    isLooping = false;
   }
 
   // GUI controls
@@ -71,6 +74,7 @@ public partial class FrmMain : Form {
     if (trackManager.State is NAudio.Wave.PlaybackState.Stopped or NAudio.Wave.PlaybackState.Paused) {
       trackManager.PlayAll();
       btnPlay.BackgroundImage = Resources.pause;
+      LoopTracks();
     }
     else {
       trackManager.PauseAll();
@@ -514,5 +518,32 @@ public partial class FrmMain : Form {
 
     // reposition remaining tracks
     UpdateSizes();
+  }
+  
+  // looping feature methods
+  private void LoopEnableButton_Click(object sender, EventArgs e)
+  {
+    if (isLooping)
+    {
+      isLooping = false;
+      LoopEnableButton.BackColor = Color.Red;
+    }
+    else
+    {
+      isLooping = true;
+      LoopEnableButton.BackColor = Color.Green;
+    }
+  }
+
+  private async Task LoopTracks()
+  {
+    while (isLooping)
+    {
+      if (trackManager.State is NAudio.Wave.PlaybackState.Stopped)
+      {
+        trackManager.PlayAll();
+      }
+      await Task.Delay(10);
+    }
   }
 }
