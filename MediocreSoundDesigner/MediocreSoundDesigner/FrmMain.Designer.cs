@@ -52,6 +52,7 @@
             sfdSaveFile = new SaveFileDialog();
             trkDrawTimescale = new TrackBar();
             colorDialog = new ColorDialog();
+            LoopEnableButton = new Button();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
@@ -228,12 +229,24 @@
             trkDrawTimescale.Value = 500;
             trkDrawTimescale.Scroll += trkDrawTimescale_Scroll;
             // 
+            // LoopEnableButton
+            // 
+            LoopEnableButton.BackColor = Color.Red;
+            LoopEnableButton.Location = new Point(863, 661);
+            LoopEnableButton.Name = "LoopEnableButton";
+            LoopEnableButton.Size = new Size(109, 90);
+            LoopEnableButton.TabIndex = 8;
+            LoopEnableButton.Text = "loop";
+            LoopEnableButton.UseVisualStyleBackColor = false;
+            LoopEnableButton.Click += LoopEnableButton_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(1604, 783);
+            Controls.Add(LoopEnableButton);
             Controls.Add(trkDrawTimescale);
             Controls.Add(btnPlay);
             Controls.Add(lblDebug);
@@ -276,6 +289,7 @@
     private ToolStripMenuItem menuEditEliminateSilence;
     private Label lblPlayhead;
     private ToolStripMenuItem menuGenRecord;
-        private ToolStripMenuItem helpToolStripMenuItem;
+    private ToolStripMenuItem helpToolStripMenuItem;
+    private Button LoopEnableButton;
     }
 }
