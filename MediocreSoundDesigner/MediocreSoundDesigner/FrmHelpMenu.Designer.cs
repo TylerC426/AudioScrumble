@@ -35,20 +35,22 @@
             // richTextBox1
             // 
             richTextBox1.Font = new Font("Segoe UI", 12F);
-            richTextBox1.Location = new Point(12, 12);
+            richTextBox1.Location = new Point(17, 20);
+            richTextBox1.Margin = new Padding(4, 5, 4, 5);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(436, 562);
+            richTextBox1.Size = new Size(621, 934);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // FrmHelpMenu
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(460, 586);
+            ClientSize = new Size(657, 977);
             Controls.Add(richTextBox1);
             HelpButton = true;
+            Margin = new Padding(4, 5, 4, 5);
             Name = "FrmHelpMenu";
             StartPosition = FormStartPosition.CenterParent;
             Text = "FrmHelpMenu";
