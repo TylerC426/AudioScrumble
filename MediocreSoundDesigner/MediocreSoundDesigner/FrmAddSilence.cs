@@ -8,6 +8,11 @@ public partial class FrmAddSilence : FrmEditMaster
         InitializeComponent();
     }
 
+    protected override void Init()
+    {
+        comboBox1.SelectedIndex = 0;    
+    }
+
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
 

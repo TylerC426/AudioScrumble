@@ -47,6 +47,7 @@
             menuGenNoise = new ToolStripMenuItem();
             menuGenGradientNoise = new ToolStripMenuItem();
             addSilenceToolStripMenuItem = new ToolStripMenuItem();
+            addSilenceAsNewToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             btnPlay = new Button();
             tmrUpdate = new System.Windows.Forms.Timer(components);
@@ -54,7 +55,6 @@
             trkDrawTimescale = new TrackBar();
             colorDialog = new ColorDialog();
             LoopEnableButton = new Button();
-            addSilenceAsNewToolStripMenuItem = new ToolStripMenuItem();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
@@ -176,7 +176,7 @@
             // 
             menuGenNoise.Name = "menuGenNoise";
             menuGenNoise.Size = new Size(190, 22);
-            menuGenNoise.Text = "Noise";
+            menuGenNoise.Text = "Add Noise as New";
             menuGenNoise.Click += menuGenNoise_Click;
             // 
             // menuGenGradientNoise
@@ -192,6 +192,13 @@
             addSilenceToolStripMenuItem.Size = new Size(190, 22);
             addSilenceToolStripMenuItem.Text = "Add Silence to Track...";
             addSilenceToolStripMenuItem.Click += addSilenceToolStripMenuItem_Click;
+            // 
+            // addSilenceAsNewToolStripMenuItem
+            // 
+            addSilenceAsNewToolStripMenuItem.Name = "addSilenceAsNewToolStripMenuItem";
+            addSilenceAsNewToolStripMenuItem.Size = new Size(190, 22);
+            addSilenceAsNewToolStripMenuItem.Text = "Add Silence as New";
+            addSilenceAsNewToolStripMenuItem.Click += addSilenceAsNewToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -248,13 +255,6 @@
             LoopEnableButton.Text = "loop";
             LoopEnableButton.UseVisualStyleBackColor = false;
             LoopEnableButton.Click += LoopEnableButton_Click;
-            // 
-            // addSilenceAsNewToolStripMenuItem
-            // 
-            addSilenceAsNewToolStripMenuItem.Name = "addSilenceAsNewToolStripMenuItem";
-            addSilenceAsNewToolStripMenuItem.Size = new Size(190, 22);
-            addSilenceAsNewToolStripMenuItem.Text = "Add Silence as New...";
-            addSilenceAsNewToolStripMenuItem.Click += addSilenceAsNewToolStripMenuItem_Click;
             // 
             // FrmMain
             // 

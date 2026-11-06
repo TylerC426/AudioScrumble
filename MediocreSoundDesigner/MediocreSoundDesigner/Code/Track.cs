@@ -163,16 +163,27 @@ public class Track : IDisposable {
     // add silence to the track
     public void AddSilence(SampleRegion region, int duration)
     {
-        float[] newSamples = CloneSamples();
-        int NUM_SAMPLES = duration * 1000;
-        float[] samples = new float[NUM_SAMPLES];
-        
+        float[] oldSamples = CloneSamples();
+        int NUM_SAMPLES = (int)duration * 50_000;
+        float[] silentSamples = new float[NUM_SAMPLES];
+        List<float> newSamples;
+        //Random rand = new();
         for (int i = 0; i < NUM_SAMPLES; i++)
         {
-            samples[i] = 1.0f;
+            silentSamples[i] = 0.0f;
         }
-        newSamples = samples;
+        if (region is SampleRegion.BEGINNING_ONLY)
+        {
+            newSamples = [..silentSamples, ..oldSamples];
+        }
+        else
+        {
+            newSamples = [.. oldSamples, .. silentSamples];
+        }
         
+
+        samples = newSamples.ToArray();
+
     }
 
   // play
