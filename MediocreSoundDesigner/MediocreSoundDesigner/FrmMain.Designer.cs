@@ -46,6 +46,7 @@
             menuGenRecord = new ToolStripMenuItem();
             menuGenNoise = new ToolStripMenuItem();
             menuGenGradientNoise = new ToolStripMenuItem();
+            addSilenceToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             btnPlay = new Button();
             tmrUpdate = new System.Windows.Forms.Timer(components);
@@ -53,6 +54,7 @@
             trkDrawTimescale = new TrackBar();
             colorDialog = new ColorDialog();
             LoopEnableButton = new Button();
+            addSilenceAsNewToolStripMenuItem = new ToolStripMenuItem();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
@@ -158,7 +160,7 @@
             // 
             // menuGen
             // 
-            menuGen.DropDownItems.AddRange(new ToolStripItem[] { menuGenRecord, menuGenNoise, menuGenGradientNoise });
+            menuGen.DropDownItems.AddRange(new ToolStripItem[] { menuGenRecord, menuGenNoise, menuGenGradientNoise, addSilenceToolStripMenuItem, addSilenceAsNewToolStripMenuItem });
             menuGen.Name = "menuGen";
             menuGen.Size = new Size(66, 20);
             menuGen.Text = "&Generate";
@@ -166,23 +168,30 @@
             // menuGenRecord
             // 
             menuGenRecord.Name = "menuGenRecord";
-            menuGenRecord.Size = new Size(180, 22);
+            menuGenRecord.Size = new Size(190, 22);
             menuGenRecord.Text = "Record...";
             menuGenRecord.Click += menuGenRecord_Click;
             // 
             // menuGenNoise
             // 
             menuGenNoise.Name = "menuGenNoise";
-            menuGenNoise.Size = new Size(180, 22);
+            menuGenNoise.Size = new Size(190, 22);
             menuGenNoise.Text = "Noise";
             menuGenNoise.Click += menuGenNoise_Click;
             // 
             // menuGenGradientNoise
             // 
             menuGenGradientNoise.Name = "menuGenGradientNoise";
-            menuGenGradientNoise.Size = new Size(180, 22);
+            menuGenGradientNoise.Size = new Size(190, 22);
             menuGenGradientNoise.Text = "Gradient Noise";
             menuGenGradientNoise.Click += menuGenGradientNoise_Click;
+            // 
+            // addSilenceToolStripMenuItem
+            // 
+            addSilenceToolStripMenuItem.Name = "addSilenceToolStripMenuItem";
+            addSilenceToolStripMenuItem.Size = new Size(190, 22);
+            addSilenceToolStripMenuItem.Text = "Add Silence to Track...";
+            addSilenceToolStripMenuItem.Click += addSilenceToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -240,6 +249,13 @@
             LoopEnableButton.UseVisualStyleBackColor = false;
             LoopEnableButton.Click += LoopEnableButton_Click;
             // 
+            // addSilenceAsNewToolStripMenuItem
+            // 
+            addSilenceAsNewToolStripMenuItem.Name = "addSilenceAsNewToolStripMenuItem";
+            addSilenceAsNewToolStripMenuItem.Size = new Size(190, 22);
+            addSilenceAsNewToolStripMenuItem.Text = "Add Silence as New...";
+            addSilenceAsNewToolStripMenuItem.Click += addSilenceAsNewToolStripMenuItem_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -291,5 +307,7 @@
     private ToolStripMenuItem menuGenRecord;
     private ToolStripMenuItem helpToolStripMenuItem;
     private Button LoopEnableButton;
+        private ToolStripMenuItem addSilenceToolStripMenuItem;
+        private ToolStripMenuItem addSilenceAsNewToolStripMenuItem;
     }
 }

@@ -160,6 +160,21 @@ public class Track : IDisposable {
     samples = newSamples;
   }
 
+    // add silence to the track
+    public void AddSilence(SampleRegion region, int duration)
+    {
+        float[] newSamples = CloneSamples();
+        int NUM_SAMPLES = duration * 1000;
+        float[] samples = new float[NUM_SAMPLES];
+        
+        for (int i = 0; i < NUM_SAMPLES; i++)
+        {
+            samples[i] = 1.0f;
+        }
+        newSamples = samples;
+        
+    }
+
   // play
   public void Play() {
     outputDevice?.Dispose();
