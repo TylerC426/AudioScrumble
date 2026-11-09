@@ -48,6 +48,7 @@
             menuGenGradientNoise = new ToolStripMenuItem();
             addSilenceToolStripMenuItem = new ToolStripMenuItem();
             addSilenceAsNewToolStripMenuItem = new ToolStripMenuItem();
+            addNoiseToTrackToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             btnPlay = new Button();
             tmrUpdate = new System.Windows.Forms.Timer(components);
@@ -160,7 +161,7 @@
             // 
             // menuGen
             // 
-            menuGen.DropDownItems.AddRange(new ToolStripItem[] { menuGenRecord, menuGenNoise, menuGenGradientNoise, addSilenceToolStripMenuItem, addSilenceAsNewToolStripMenuItem });
+            menuGen.DropDownItems.AddRange(new ToolStripItem[] { menuGenRecord, addNoiseToTrackToolStripMenuItem, menuGenNoise, addSilenceToolStripMenuItem, addSilenceAsNewToolStripMenuItem, menuGenGradientNoise });
             menuGen.Name = "menuGen";
             menuGen.Size = new Size(66, 20);
             menuGen.Text = "&Generate";
@@ -199,6 +200,13 @@
             addSilenceAsNewToolStripMenuItem.Size = new Size(190, 22);
             addSilenceAsNewToolStripMenuItem.Text = "Add Silence as New";
             addSilenceAsNewToolStripMenuItem.Click += addSilenceAsNewToolStripMenuItem_Click;
+            // 
+            // addNoiseToTrackToolStripMenuItem
+            // 
+            addNoiseToTrackToolStripMenuItem.Name = "addNoiseToTrackToolStripMenuItem";
+            addNoiseToTrackToolStripMenuItem.Size = new Size(190, 22);
+            addNoiseToTrackToolStripMenuItem.Text = "Add Noise to Track...";
+            addNoiseToTrackToolStripMenuItem.Click += addNoiseToTrackToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -309,5 +317,6 @@
     private Button LoopEnableButton;
         private ToolStripMenuItem addSilenceToolStripMenuItem;
         private ToolStripMenuItem addSilenceAsNewToolStripMenuItem;
+        private ToolStripMenuItem addNoiseToTrackToolStripMenuItem;
     }
 }

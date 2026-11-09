@@ -665,8 +665,18 @@ public partial class FrmMain : Form
         newTrack.PanDrawSamples.Invalidate();
     }
 
+    private void addNoiseToTrackToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (trackManager.SelectedTrack is not null)
+        {
+            FrmAddNoise frm = new();
+            frm.SetSound(trackManager.SelectedTrack);
+            frm.ShowDialog();
+        }
+    }
+
     //public void addSilenceNewHelper(float duration)
     //{
-        
+
     //}
 }
