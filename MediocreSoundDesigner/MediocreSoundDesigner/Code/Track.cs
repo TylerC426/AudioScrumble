@@ -45,6 +45,10 @@ public class Track : IDisposable {
     public PlaybackState State => outputDevice?.PlaybackState ?? PlaybackState.Stopped;
     public string TrackName { get; set; }
     public ViewMode View { get; set; } = ViewMode.Waveform;
+    // follow 3 properties allow SpectrogramRenderer to access the audio data
+    public int SampleRate => sampleRate;
+    public int Channels => channels;
+    public float[] Samples => samples;
 
     // ctor
     public Track(string file) {
