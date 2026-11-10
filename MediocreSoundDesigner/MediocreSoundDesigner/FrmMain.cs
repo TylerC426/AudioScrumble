@@ -308,6 +308,30 @@ public partial class FrmMain : Form
             trackMenu.Show(trackOptions, 0, trackOptions.Height);
         };
 
+        // allows user to select what view mode is being used
+        ComboBox viewSelector = new()
+        {
+            DropDownStyle = ComboBoxStyle.DropDownList, Width = 105,
+            Dock = DockStyle.Right, BackColor = Color.DarkSlateGray,
+            ForeColor = Color.White, FlatStyle = FlatStyle.Flat
+        };
+
+        // adds the options to the view selector
+        viewSelector.Items.Add("Waveform");
+        viewSelector.Items.Add("Spectrogram");
+
+        // the current selected view option
+        viewSelector.SelectedIndex = (int)track.View;
+
+        // event that handles the changing of the view mode
+        viewSelector.SelectedIndexChanged += (sender, e) =>
+        {
+            track.View = (ViewMode)viewSelector.SelectedIndex;
+
+            // tells WinForms that panel needs to be repainted
+            track.PanDrawSamples?.Invalidate();
+        };
+
         // handles events for the context menu options
         rename.Click += (sender, e) =>
         {
@@ -379,6 +403,7 @@ public partial class FrmMain : Form
         // adds the name label and options button to the header
         // the order here DOES matter
         trackHeader.Controls.Add(lblTrackName);
+        trackHeader.Controls.Add(viewSelector);
         trackHeader.Controls.Add(trackOptions);
 
 
@@ -485,7 +510,16 @@ public partial class FrmMain : Form
         // draws the waveform whenever its panel needs to be redrawn
         waveForm.Paint += (sender, e) =>
         {
-            track.DrawSamples(e.Graphics, trackManager.DrawTimescale);
+            switch (track.View)
+            {
+                case ViewMode.Waveform:
+                    track.DrawSamples(e.Graphics, trackManager.DrawTimescale);
+                    break;
+
+                case ViewMode.Spectrogram:
+                    // implement soon
+                    break;
+            }
         };
 
         // adds full track panel to the track container
