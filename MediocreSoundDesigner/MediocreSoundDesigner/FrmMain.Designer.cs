@@ -46,6 +46,9 @@
             menuGenRecord = new ToolStripMenuItem();
             menuGenNoise = new ToolStripMenuItem();
             menuGenGradientNoise = new ToolStripMenuItem();
+            addSilenceToolStripMenuItem = new ToolStripMenuItem();
+            addSilenceAsNewToolStripMenuItem = new ToolStripMenuItem();
+            addNoiseToTrackToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             btnPlay = new Button();
             tmrUpdate = new System.Windows.Forms.Timer(components);
@@ -158,7 +161,7 @@
             // 
             // menuGen
             // 
-            menuGen.DropDownItems.AddRange(new ToolStripItem[] { menuGenRecord, menuGenNoise, menuGenGradientNoise });
+            menuGen.DropDownItems.AddRange(new ToolStripItem[] { menuGenRecord, addNoiseToTrackToolStripMenuItem, menuGenNoise, addSilenceToolStripMenuItem, addSilenceAsNewToolStripMenuItem, menuGenGradientNoise });
             menuGen.Name = "menuGen";
             menuGen.Size = new Size(66, 20);
             menuGen.Text = "&Generate";
@@ -166,23 +169,44 @@
             // menuGenRecord
             // 
             menuGenRecord.Name = "menuGenRecord";
-            menuGenRecord.Size = new Size(180, 22);
+            menuGenRecord.Size = new Size(190, 22);
             menuGenRecord.Text = "Record...";
             menuGenRecord.Click += menuGenRecord_Click;
             // 
             // menuGenNoise
             // 
             menuGenNoise.Name = "menuGenNoise";
-            menuGenNoise.Size = new Size(180, 22);
-            menuGenNoise.Text = "Noise";
+            menuGenNoise.Size = new Size(190, 22);
+            menuGenNoise.Text = "Add Noise as New";
             menuGenNoise.Click += menuGenNoise_Click;
             // 
             // menuGenGradientNoise
             // 
             menuGenGradientNoise.Name = "menuGenGradientNoise";
-            menuGenGradientNoise.Size = new Size(180, 22);
+            menuGenGradientNoise.Size = new Size(190, 22);
             menuGenGradientNoise.Text = "Gradient Noise";
             menuGenGradientNoise.Click += menuGenGradientNoise_Click;
+            // 
+            // addSilenceToolStripMenuItem
+            // 
+            addSilenceToolStripMenuItem.Name = "addSilenceToolStripMenuItem";
+            addSilenceToolStripMenuItem.Size = new Size(190, 22);
+            addSilenceToolStripMenuItem.Text = "Add Silence to Track...";
+            addSilenceToolStripMenuItem.Click += addSilenceToolStripMenuItem_Click;
+            // 
+            // addSilenceAsNewToolStripMenuItem
+            // 
+            addSilenceAsNewToolStripMenuItem.Name = "addSilenceAsNewToolStripMenuItem";
+            addSilenceAsNewToolStripMenuItem.Size = new Size(190, 22);
+            addSilenceAsNewToolStripMenuItem.Text = "Add Silence as New";
+            addSilenceAsNewToolStripMenuItem.Click += addSilenceAsNewToolStripMenuItem_Click;
+            // 
+            // addNoiseToTrackToolStripMenuItem
+            // 
+            addNoiseToTrackToolStripMenuItem.Name = "addNoiseToTrackToolStripMenuItem";
+            addNoiseToTrackToolStripMenuItem.Size = new Size(190, 22);
+            addNoiseToTrackToolStripMenuItem.Text = "Add Noise to Track...";
+            addNoiseToTrackToolStripMenuItem.Click += addNoiseToTrackToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -291,5 +315,8 @@
     private ToolStripMenuItem menuGenRecord;
     private ToolStripMenuItem helpToolStripMenuItem;
     private Button LoopEnableButton;
+        private ToolStripMenuItem addSilenceToolStripMenuItem;
+        private ToolStripMenuItem addSilenceAsNewToolStripMenuItem;
+        private ToolStripMenuItem addNoiseToTrackToolStripMenuItem;
     }
 }

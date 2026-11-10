@@ -160,8 +160,56 @@ public class Track : IDisposable {
     samples = newSamples;
   }
 
-  // play
-  public void Play() {
+    // add silence to the track
+    public void AddSilence(SampleRegion region, int duration)
+    {
+        float[] oldSamples = CloneSamples();
+        int NUM_SAMPLES = (int)duration * 50_000;
+        float[] silentSamples = new float[NUM_SAMPLES];
+        List<float> newSamples;
+        //Random rand = new();
+        for (int i = 0; i < NUM_SAMPLES; i++)
+        {
+            silentSamples[i] = 0.0f;
+        }
+        if (region is SampleRegion.BEGINNING_ONLY)
+        {
+            newSamples = [..silentSamples, ..oldSamples];
+        }
+        else
+        {
+            newSamples = [.. oldSamples, .. silentSamples];
+        }
+        
+        samples = newSamples.ToArray();
+    }
+
+    // add noise to the track
+    public void AddNoise(SampleRegion region, int duration)
+    {
+        float[] oldSamples = CloneSamples();
+        int NUM_SAMPLES = (int)duration * 50_000;
+        float[] noiseSamples = new float[NUM_SAMPLES];
+        List<float> newSamples;
+        Random rand = new();
+        for (int i = 0; i < NUM_SAMPLES; i++)
+        {
+            noiseSamples[i] = rand.NextSingle() * 2.0f - 1.0f;
+        }
+        if (region is SampleRegion.BEGINNING_ONLY)
+        {
+            newSamples = [.. noiseSamples, .. oldSamples];
+        }
+        else
+        {
+            newSamples = [.. oldSamples, .. noiseSamples];
+        }
+
+        samples = newSamples.ToArray();
+    }
+
+    // play
+    public void Play() {
     outputDevice?.Dispose();
     fileReader?.Dispose();
     SaveToTempFile();
