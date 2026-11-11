@@ -45,7 +45,8 @@ public class Track : IDisposable {
     public PlaybackState State => outputDevice?.PlaybackState ?? PlaybackState.Stopped;
     public string TrackName { get; set; }
     public ViewMode View { get; set; } = ViewMode.Waveform;
-    // follow 3 properties allow SpectrogramRenderer to access the audio data
+    public SpectrogramRenderer Spectrogram { get; } = new();
+    // following 3 properties allow SpectrogramRenderer to access the audio data
     public int SampleRate => sampleRate;
     public int Channels => channels;
     public float[] Samples => samples;
@@ -83,7 +84,7 @@ public class Track : IDisposable {
         this.pitch = 1.0f;
         this.bits = 32;
         this.channels = 1;
-        this.sampleRate = 0;
+        this.sampleRate = 44100;
         IsDisabled = false;
         TrackName = "New Track";
     }
@@ -98,6 +99,9 @@ public class Track : IDisposable {
     }
     public void ReplaceSamples(float[] samples) {
         this.samples = samples;
+
+        // clear cached spectrogram after replacing audio
+        Spectrogram.Invalidate();
     }
     public void Reverse() {
         for (int i = 0; i < samples.Length / 2; i++) {
@@ -105,11 +109,17 @@ public class Track : IDisposable {
             samples[i] = samples[samples.Length - 1 - i];
             samples[samples.Length - 1 - i] = temp;
         }
+
+        // clear cached spectrogram after editing audio
+        Spectrogram.Invalidate();
     }
     public void Flip() {
         for (int i = 0; i < samples.Length; i++) {
             samples[i] *= -1;
         }
+
+        // clear cached spectrogram after editing audio
+        Spectrogram.Invalidate();
     }
     public void Trim() {
     }
@@ -170,6 +180,9 @@ public class Track : IDisposable {
             }
         }
         samples = newSamples;
+
+        // clear cached spectrogram after editing audio
+        Spectrogram.Invalidate();
     }
 
     // add silence to the track
@@ -194,6 +207,9 @@ public class Track : IDisposable {
         }
         
         samples = newSamples.ToArray();
+
+        // clear cached spectrogram after editing audio
+        Spectrogram.Invalidate();
     }
 
     // add noise to the track
@@ -218,6 +234,9 @@ public class Track : IDisposable {
         }
 
         samples = newSamples.ToArray();
+
+        // clear cached spectrogram after editing audio
+        Spectrogram.Invalidate();
     }
 
     // play
@@ -297,5 +316,8 @@ public class Track : IDisposable {
     public void Dispose() {
         outputDevice?.Dispose();
         fileReader?.Dispose();
+
+        // release cached spectrogram image
+        Spectrogram.Invalidate();
     }
 }

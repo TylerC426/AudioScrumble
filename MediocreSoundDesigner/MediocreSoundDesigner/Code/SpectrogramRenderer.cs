@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using NWaves.Signals;
 using NWaves.Transforms;
 
@@ -8,11 +9,14 @@ namespace MediocreSoundDesigner;
 public class SpectrogramRenderer //: IDisposable
 {
     // constants
-    private const int WindowSize = 1024;    // num audio samples analyzed at a given time
-    private const int HopSize = 512;        // num samples to move forward between analyses
+    private const int WindowSize = 4096;    // num audio samples analyzed at a given time
+    private const int HopSize = 1024;        // num samples to move forward between analyses
 
     // fields
     private Bitmap? spectImage;             // stores the generated spectrogram image
+
+    // properties
+    public bool HasImage => spectImage != null;     // determines if there is already a spectrogram image
 
 
 
@@ -86,6 +90,14 @@ public class SpectrogramRenderer //: IDisposable
         int width = spectrum.Count;         // num time windows in the audio
         int height = spectrum[0].Length;    // num frequency bins per window
 
+        // determine frequency range for log scaling
+        double minFrequency = 20.0;
+        double maxFrequency = sampleRate / 2.0;
+
+        // calculate log frequency boundaries
+        double logMin = Math.Log10(minFrequency);
+        double logMax = Math.Log10(maxFrequency);
+
 
         // creates the bitmap that stores the spectrogram image
         Bitmap image = new(width, height);
@@ -96,8 +108,16 @@ public class SpectrogramRenderer //: IDisposable
             // go through each frequency bin in current window (basically the row)
             for (int y = 0; y < height; y++)
             {
-                // get frequency power for current window and bin
-                float power = spectrum[x][y];
+                // convert vertical position into a log frequency
+                double position = (double)y / (height - 1);
+                double frequency = Math.Pow(10, logMin + position * (logMax - logMin));
+
+                // find closest frequency bin in spectrum
+                int bin = (int)Math.Round(frequency * WindowSize / sampleRate);
+                bin = Math.Clamp(bin, 0, spectrum[x].Length - 1);
+
+                // get frequency power for selected bin
+                float power = spectrum[x][bin];
 
 
                 // converts frequency power to decibels (dB)
@@ -151,8 +171,8 @@ public class SpectrogramRenderer //: IDisposable
         //      intensity = 0.00 --> dark blue
         //      intensity = 0.25 --> blue
         //      intensity = 0.50 --> cyan
-        //      intensity = 0.75 --> orange
-        //      intensity = 1.00 --> yellow
+        //      intensity = 0.75 --> teal
+        //      intensity = 1.00 --> green
 
         // we will use linear interpolation to create a smooth transition between each color
         // interpolation formula --- result = start + (end - start) * t
@@ -237,4 +257,61 @@ public class SpectrogramRenderer //: IDisposable
     }
 
 
+
+    /// <summary>
+    /// Draws the generated spectrogram image onto the provided graphics surface.
+    /// </summary>
+    /// <param name="graphics">The surface the graphics are being drawn on.</param>
+    /// <param name="bounds">The area where the spectrogram should be drawn.</param>
+    /// <param name="isDisabled">Denotes whether the track is currently disabled.</param>
+    public void Draw(Graphics graphics, Rectangle bounds, bool isDisabled = false)
+    {
+        // check to make sure spectImage is NOT null
+        if (spectImage == null)
+        {
+            return;
+        }
+
+        // if the track is enabled, draw the spectrogram normally. otherwise, it will
+        // be in grayscale to show that the track is disabled
+        if (!isDisabled)
+        {
+            // draw the spectrogram image onto the graphics surface
+            // DrawImage scales it to fit within the specified bounds
+            graphics.DrawImage(spectImage, bounds);
+
+            // skip grayscale rendering
+            return;
+        }
+
+        // render disabled spectrogram in grayscale
+        using ImageAttributes attributes = new();
+        
+        ColorMatrix matrix = new(new float[][]
+        {
+            [0.299f, 0.299f, 0.299f, 0, 0],
+            [0.587f, 0.587f, 0.587f, 0, 0],
+            [0.114f, 0.114f, 0.114f, 0, 0],
+            [0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 1]
+        });
+
+        // apply grayscale color matrix to image
+        attributes.SetColorMatrix(matrix);
+
+        // draw the spectrogram using the grayscale settings
+        graphics.DrawImage(spectImage, bounds, 0, 0, spectImage.Width, spectImage.Height, GraphicsUnit.Pixel, attributes);
+    }
+
+
+
+    /// <summary>
+    /// Clears the cached spectrogram image so it can then be
+    /// regenerated when the track's audio samples change.
+    /// </summary>
+    public void Invalidate()
+    {
+        spectImage?.Dispose();
+        spectImage = null;
+    }
 }
