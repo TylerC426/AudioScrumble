@@ -168,11 +168,18 @@ public class SpectrogramRenderer //: IDisposable
     private static Color GetColor(double intensity)
     {
         // we will map the normalized frequency intensity to colors as follows:
-        //      intensity = 0.00 --> dark blue
-        //      intensity = 0.25 --> blue
-        //      intensity = 0.50 --> cyan
-        //      intensity = 0.75 --> teal
-        //      intensity = 1.00 --> green
+        //      intensity = 0.00 --> dark blue -- RGB(7,17,47)
+        //      intensity = 0.25 --> blue -- RGB(24,74,168)
+        //      intensity = 0.50 --> cyan -- RGB(0,169,199)
+        //      intensity = 0.75 --> teal -- RGB(0,200,150)
+        //      intensity = 1.00 --> green -- RGB(50,255,100)
+
+        // alternative choice for the color gradient:
+        //      intensity = 0.00 --> dark blue -- RGB(7,17,47)
+        //      intensity = 0.25 --> purple -- RGB(84,34,166)
+        //      intensity = 0.50 --> red -- RGB(213,45,82)
+        //      intensity = 0.75 --> orange -- RGB(255,139,34)
+        //      intensity = 1.00 --> yellow -- RGB(255,241,106)
 
         // we will use linear interpolation to create a smooth transition between each color
         // interpolation formula --- result = start + (end - start) * t
@@ -202,7 +209,7 @@ public class SpectrogramRenderer //: IDisposable
             double t = (intensity - 0.25) / (0.50 - 0.25);
 
             // calculate and return interpolated color
-            return InterpolateColor(Color.FromArgb(24,74,168), Color.FromArgb(0, 169, 199), t);
+            return InterpolateColor(Color.FromArgb(24,74,168), Color.FromArgb(0,169,199), t);
 
         }
         // from 0.50 to 0.75, transition from cyan to teal
@@ -214,7 +221,7 @@ public class SpectrogramRenderer //: IDisposable
             double t = (intensity - 0.50) / (0.75 - 0.50);
 
             // calculate and return interpolated color
-            return InterpolateColor(Color.FromArgb(0, 169, 199), Color.FromArgb(0, 200, 150), t);
+            return InterpolateColor(Color.FromArgb(0,169,199), Color.FromArgb(0,200,150), t);
 
         }
         // from 0.75 to 1.00, transition from teal to green
@@ -226,7 +233,7 @@ public class SpectrogramRenderer //: IDisposable
             double t = (intensity - 0.75) / (1.00 - 0.75);
 
             // calculate and return interpolated color
-            return InterpolateColor(Color.FromArgb(0, 200, 150), Color.FromArgb(50, 255, 100), t);
+            return InterpolateColor(Color.FromArgb(0,200,150), Color.FromArgb(50,255,100), t);
 
         }
     }
