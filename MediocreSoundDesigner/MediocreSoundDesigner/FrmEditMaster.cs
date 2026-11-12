@@ -1,4 +1,6 @@
-﻿namespace MediocreSoundDesigner;
+﻿using MediocreSoundDesigner.Properties;
+
+namespace MediocreSoundDesigner;
 
 public partial class FrmEditMaster : Form {
   // fields
@@ -7,6 +9,18 @@ public partial class FrmEditMaster : Form {
   // ctor
   public FrmEditMaster() {
     InitializeComponent();
+    if (Program.isDarkMode)
+        {
+            BackColor = Color.FromArgb(18, 16, 24);
+            panel1.BackColor = Color.FromArgb(41, 55, 71);
+            BackgroundImage = Resources.backgroundTexture;
+        }
+        else
+        {
+            BackColor = Color.FromArgb(206, 234, 215);
+            panel1.BackColor = Color.FromArgb(66, 91, 88);
+            BackgroundImage = Resources.backgroundTextureLight;
+        }
   }
 
   // sound

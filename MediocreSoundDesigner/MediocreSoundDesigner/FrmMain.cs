@@ -675,6 +675,26 @@ public partial class FrmMain : Form
         }
     }
 
+    private void darkToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        Program.isDarkMode = true;
+        BackgroundImage = Resources.backgroundTexture;
+        BackColor = Color.FromArgb(18, 16, 24);
+        panTracks.BackColor = Color.FromArgb(18, 16, 24);
+        pnlTrackBackground.BackColor = Color.FromArgb(41, 55, 71);
+        pnlButtonBackground.BackColor = Color.FromArgb(41, 55, 71);
+    }
+
+    private void lightToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        Program.isDarkMode = false;
+        BackgroundImage = Resources.backgroundTextureLight;
+        BackColor = Color.FromArgb(206, 234, 215);
+        panTracks.BackColor = Color.FromArgb(206, 234, 215);
+        pnlTrackBackground.BackColor = Color.FromArgb(66, 91, 88);
+        pnlButtonBackground.BackColor = Color.FromArgb(66, 91, 88);
+    }
+
     //public void addSilenceNewHelper(float duration)
     //{
 

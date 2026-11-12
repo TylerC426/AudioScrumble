@@ -44,11 +44,14 @@
             menuEditEliminateSilence = new ToolStripMenuItem();
             menuGen = new ToolStripMenuItem();
             menuGenRecord = new ToolStripMenuItem();
+            addNoiseToTrackToolStripMenuItem = new ToolStripMenuItem();
             menuGenNoise = new ToolStripMenuItem();
-            menuGenGradientNoise = new ToolStripMenuItem();
             addSilenceToolStripMenuItem = new ToolStripMenuItem();
             addSilenceAsNewToolStripMenuItem = new ToolStripMenuItem();
-            addNoiseToTrackToolStripMenuItem = new ToolStripMenuItem();
+            menuGenGradientNoise = new ToolStripMenuItem();
+            colorThemeToolStripMenuItem = new ToolStripMenuItem();
+            darkToolStripMenuItem = new ToolStripMenuItem();
+            lightToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             btnPlay = new Button();
             tmrUpdate = new System.Windows.Forms.Timer(components);
@@ -56,20 +59,24 @@
             trkDrawTimescale = new TrackBar();
             colorDialog = new ColorDialog();
             LoopEnableButton = new Button();
+            pnlTrackBackground = new Panel();
+            pnlButtonBackground = new Panel();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
+            pnlTrackBackground.SuspendLayout();
+            pnlButtonBackground.SuspendLayout();
             SuspendLayout();
             // 
             // panTracks
             // 
             panTracks.AutoScroll = true;
-            panTracks.BackColor = Color.DimGray;
+            panTracks.BackColor = Color.FromArgb(18, 16, 24);
             panTracks.BorderStyle = BorderStyle.Fixed3D;
             panTracks.Controls.Add(lblPlayhead);
-            panTracks.Location = new Point(10, 102);
+            panTracks.Location = new Point(18, 70);
             panTracks.Name = "panTracks";
-            panTracks.Size = new Size(1580, 541);
+            panTracks.Size = new Size(1497, 508);
             panTracks.TabIndex = 0;
             // 
             // lblPlayhead
@@ -82,10 +89,11 @@
             // 
             // lblDebug
             // 
+            lblDebug.BackColor = Color.Transparent;
             lblDebug.Dock = DockStyle.Bottom;
             lblDebug.Font = new Font("Segoe UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDebug.ForeColor = Color.FromArgb(255, 255, 192);
-            lblDebug.Location = new Point(0, 746);
+            lblDebug.Location = new Point(0, 752);
             lblDebug.Name = "lblDebug";
             lblDebug.Size = new Size(1604, 37);
             lblDebug.TabIndex = 1;
@@ -96,7 +104,7 @@
             // 
             // menu
             // 
-            menu.Items.AddRange(new ToolStripItem[] { menuFile, menuEdit, menuGen, helpToolStripMenuItem });
+            menu.Items.AddRange(new ToolStripItem[] { menuFile, menuEdit, menuGen, colorThemeToolStripMenuItem, helpToolStripMenuItem });
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
             menu.Size = new Size(1604, 24);
@@ -173,19 +181,19 @@
             menuGenRecord.Text = "Record...";
             menuGenRecord.Click += menuGenRecord_Click;
             // 
+            // addNoiseToTrackToolStripMenuItem
+            // 
+            addNoiseToTrackToolStripMenuItem.Name = "addNoiseToTrackToolStripMenuItem";
+            addNoiseToTrackToolStripMenuItem.Size = new Size(190, 22);
+            addNoiseToTrackToolStripMenuItem.Text = "Add Noise to Track...";
+            addNoiseToTrackToolStripMenuItem.Click += addNoiseToTrackToolStripMenuItem_Click;
+            // 
             // menuGenNoise
             // 
             menuGenNoise.Name = "menuGenNoise";
             menuGenNoise.Size = new Size(190, 22);
             menuGenNoise.Text = "Add Noise as New";
             menuGenNoise.Click += menuGenNoise_Click;
-            // 
-            // menuGenGradientNoise
-            // 
-            menuGenGradientNoise.Name = "menuGenGradientNoise";
-            menuGenGradientNoise.Size = new Size(190, 22);
-            menuGenGradientNoise.Text = "Gradient Noise";
-            menuGenGradientNoise.Click += menuGenGradientNoise_Click;
             // 
             // addSilenceToolStripMenuItem
             // 
@@ -201,12 +209,33 @@
             addSilenceAsNewToolStripMenuItem.Text = "Add Silence as New";
             addSilenceAsNewToolStripMenuItem.Click += addSilenceAsNewToolStripMenuItem_Click;
             // 
-            // addNoiseToTrackToolStripMenuItem
+            // menuGenGradientNoise
             // 
-            addNoiseToTrackToolStripMenuItem.Name = "addNoiseToTrackToolStripMenuItem";
-            addNoiseToTrackToolStripMenuItem.Size = new Size(190, 22);
-            addNoiseToTrackToolStripMenuItem.Text = "Add Noise to Track...";
-            addNoiseToTrackToolStripMenuItem.Click += addNoiseToTrackToolStripMenuItem_Click;
+            menuGenGradientNoise.Name = "menuGenGradientNoise";
+            menuGenGradientNoise.Size = new Size(190, 22);
+            menuGenGradientNoise.Text = "Gradient Noise";
+            menuGenGradientNoise.Click += menuGenGradientNoise_Click;
+            // 
+            // colorThemeToolStripMenuItem
+            // 
+            colorThemeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { darkToolStripMenuItem, lightToolStripMenuItem });
+            colorThemeToolStripMenuItem.Name = "colorThemeToolStripMenuItem";
+            colorThemeToolStripMenuItem.Size = new Size(88, 20);
+            colorThemeToolStripMenuItem.Text = "Color Theme";
+            // 
+            // darkToolStripMenuItem
+            // 
+            darkToolStripMenuItem.Name = "darkToolStripMenuItem";
+            darkToolStripMenuItem.Size = new Size(101, 22);
+            darkToolStripMenuItem.Text = "Dark";
+            darkToolStripMenuItem.Click += darkToolStripMenuItem_Click;
+            // 
+            // lightToolStripMenuItem
+            // 
+            lightToolStripMenuItem.Name = "lightToolStripMenuItem";
+            lightToolStripMenuItem.Size = new Size(101, 22);
+            lightToolStripMenuItem.Text = "Light";
+            lightToolStripMenuItem.Click += lightToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -226,9 +255,9 @@
             btnPlay.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btnPlay.FlatStyle = FlatStyle.Flat;
             btnPlay.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnPlay.Location = new Point(717, 661);
+            btnPlay.Location = new Point(25, 7);
             btnPlay.Name = "btnPlay";
-            btnPlay.Size = new Size(100, 100);
+            btnPlay.Size = new Size(93, 93);
             btnPlay.TabIndex = 6;
             btnPlay.UseVisualStyleBackColor = false;
             btnPlay.Click += btnPlay_Click;
@@ -242,11 +271,11 @@
             // trkDrawTimescale
             // 
             trkDrawTimescale.LargeChange = 50;
-            trkDrawTimescale.Location = new Point(12, 55);
+            trkDrawTimescale.Location = new Point(13, 19);
             trkDrawTimescale.Maximum = 1000;
             trkDrawTimescale.Minimum = 1;
             trkDrawTimescale.Name = "trkDrawTimescale";
-            trkDrawTimescale.Size = new Size(1580, 45);
+            trkDrawTimescale.Size = new Size(1502, 45);
             trkDrawTimescale.SmallChange = 10;
             trkDrawTimescale.TabIndex = 7;
             trkDrawTimescale.TickFrequency = 10;
@@ -256,26 +285,47 @@
             // LoopEnableButton
             // 
             LoopEnableButton.BackColor = Color.Red;
-            LoopEnableButton.Location = new Point(863, 661);
+            LoopEnableButton.Location = new Point(150, 18);
             LoopEnableButton.Name = "LoopEnableButton";
-            LoopEnableButton.Size = new Size(109, 90);
+            LoopEnableButton.Size = new Size(101, 78);
             LoopEnableButton.TabIndex = 8;
             LoopEnableButton.Text = "loop";
             LoopEnableButton.UseVisualStyleBackColor = false;
             LoopEnableButton.Click += LoopEnableButton_Click;
             // 
+            // pnlTrackBackground
+            // 
+            pnlTrackBackground.BackColor = Color.FromArgb(41, 55, 71);
+            pnlTrackBackground.Controls.Add(panTracks);
+            pnlTrackBackground.Controls.Add(trkDrawTimescale);
+            pnlTrackBackground.Location = new Point(47, 52);
+            pnlTrackBackground.Name = "pnlTrackBackground";
+            pnlTrackBackground.Size = new Size(1532, 603);
+            pnlTrackBackground.TabIndex = 9;
+            // 
+            // pnlButtonBackground
+            // 
+            pnlButtonBackground.BackColor = Color.FromArgb(41, 55, 71);
+            pnlButtonBackground.Controls.Add(btnPlay);
+            pnlButtonBackground.Controls.Add(LoopEnableButton);
+            pnlButtonBackground.Location = new Point(740, 667);
+            pnlButtonBackground.Name = "pnlButtonBackground";
+            pnlButtonBackground.Size = new Size(266, 110);
+            pnlButtonBackground.TabIndex = 10;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Black;
-            ClientSize = new Size(1604, 783);
-            Controls.Add(LoopEnableButton);
-            Controls.Add(trkDrawTimescale);
-            Controls.Add(btnPlay);
+            BackColor = Color.FromArgb(18, 16, 24);
+            BackgroundImage = Properties.Resources.backgroundTexture;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1604, 789);
+            Controls.Add(pnlButtonBackground);
+            Controls.Add(pnlTrackBackground);
             Controls.Add(lblDebug);
-            Controls.Add(panTracks);
             Controls.Add(menu);
+            DoubleBuffered = true;
             KeyPreview = true;
             MainMenuStrip = menu;
             Name = "FrmMain";
@@ -285,6 +335,10 @@
             menu.ResumeLayout(false);
             menu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).EndInit();
+            pnlTrackBackground.ResumeLayout(false);
+            pnlTrackBackground.PerformLayout();
+            pnlButtonBackground.ResumeLayout(false);
+            pnlButtonBackground.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -318,5 +372,10 @@
         private ToolStripMenuItem addSilenceToolStripMenuItem;
         private ToolStripMenuItem addSilenceAsNewToolStripMenuItem;
         private ToolStripMenuItem addNoiseToTrackToolStripMenuItem;
+        private ToolStripMenuItem colorThemeToolStripMenuItem;
+        private ToolStripMenuItem darkToolStripMenuItem;
+        private ToolStripMenuItem lightToolStripMenuItem;
+        private Panel pnlTrackBackground;
+        private Panel pnlButtonBackground;
     }
 }
