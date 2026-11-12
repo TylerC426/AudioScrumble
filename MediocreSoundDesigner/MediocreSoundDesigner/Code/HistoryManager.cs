@@ -23,12 +23,14 @@ public class HistoryManager
     }
 
 
-    // 
+    /// <summary>
+    /// Removes all past state instances of the track
+    /// being deleted from the edit history.
+    /// </summary>
+    /// <param name="track">The track being deleted.</param>
     public void RemoveTrackHistory(Track track)
     {
         Stack<HistoryEntry> tempStack = new();
-        //foreach (HistoryEntry entry in undoStack)  --  could maybe work, unsure
-        //for (int i = 0; i < undoStack.Count; i++)  --  actually this probably wont work
 
         // remove each entry from the history and identify
         // those which apply to the deleted track
@@ -43,12 +45,6 @@ public class HistoryManager
                 tempStack.Push(entry);
             }
         }
-
-        /*
-         * Idea: could also try using stack method "Contains(X)", with x being 
-         * any entry that has an OgTrack = to track. That is, assuming that is
-         * how that method works
-         */
 
         // rebuild undoStack after all history for deleted track is removed
         while (tempStack.Count > 0)
