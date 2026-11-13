@@ -330,7 +330,7 @@ public partial class FrmMain : Form
             // draw the dots vertically
             using SolidBrush brush = new(Color.White);
 
-            for (int i = 0; i < 3;  i++)
+            for (int i = 0; i < 3; i++)
             {
                 e.Graphics.FillEllipse(brush, center - 2, 7 + (i * 7), 4, 4);
             }
@@ -347,9 +347,12 @@ public partial class FrmMain : Form
         // allows user to select what view mode is being used
         ComboBox viewSelector = new()
         {
-            DropDownStyle = ComboBoxStyle.DropDownList, Width = 105,
-            Dock = DockStyle.None, BackColor = Color.DarkSlateGray,
-            ForeColor = Color.White, FlatStyle = FlatStyle.Flat
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            Width = 105,
+            Dock = DockStyle.None,
+            BackColor = Color.DarkSlateGray,
+            ForeColor = Color.White,
+            FlatStyle = FlatStyle.Flat
         };
 
         // adds the options to the view selector
@@ -582,7 +585,7 @@ public partial class FrmMain : Form
 
                     // set spectrogram's position and dimensions
                     Rectangle bounds = new(
-                        track.DrawOffset, 0,width,
+                        track.DrawOffset, 0, width,
                         waveForm.ClientSize.Height
                     );
 
@@ -802,6 +805,54 @@ public partial class FrmMain : Form
         if (track.View == ViewMode.Spectrogram && !track.Spectrogram.HasImage && track.SampleRate > 0)
         {
             track.Spectrogram.Generate(track);
+        }
+    }
+
+    /// <summary>
+    /// Asks the user if they would like to save before closing.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        // no tracks --> nothing to save
+        if (trackManager.Tracks.Count == 0) return;
+
+        // ask user if they want to save before closing
+        DialogResult result = MessageBox.Show("Do you want to save your audio before closing?",
+                                              "Save Before Closing", 
+                                              MessageBoxButtons.YesNoCancel, 
+                                              MessageBoxIcon.Question);
+
+        // user chooses cancel --> prevent application from closing
+        if (result == DialogResult.Cancel)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        // user chooses no --> close w/out saving
+        if (result == DialogResult.No) return;
+
+        // user chooses yes --> save audio file then close
+        sfdSaveFile.DefaultExt = "wav";
+        if (sfdSaveFile.ShowDialog() == DialogResult.OK)
+        {
+            // need to prevent the application from closing if a save fails for some reason
+            try
+            {
+                trackManager.SaveToFile(sfdSaveFile.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Audio file failed to save:\n{ex.Message}", "Save Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+        }
+        else
+        {
+            // user canceled the save --> prevent application from closing
+            e.Cancel = true;
         }
     }
 }
