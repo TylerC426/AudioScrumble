@@ -295,12 +295,14 @@
             // 
             // pnlTrackBackground
             // 
+            pnlTrackBackground.AutoSize = true;
+            pnlTrackBackground.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             pnlTrackBackground.BackColor = Color.FromArgb(41, 55, 71);
             pnlTrackBackground.Controls.Add(panTracks);
             pnlTrackBackground.Controls.Add(trkDrawTimescale);
             pnlTrackBackground.Location = new Point(47, 52);
             pnlTrackBackground.Name = "pnlTrackBackground";
-            pnlTrackBackground.Size = new Size(1532, 603);
+            pnlTrackBackground.Size = new Size(1518, 581);
             pnlTrackBackground.TabIndex = 9;
             // 
             // pnlButtonBackground

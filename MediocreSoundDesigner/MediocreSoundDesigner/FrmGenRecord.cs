@@ -10,6 +10,17 @@ public partial class FrmGenRecord : FrmEditMaster {
 
   public FrmGenRecord() {
     InitializeComponent();
+        if (Program.isDarkMode)
+        {
+            btnApply.BackColor = Program.darkForeground;
+            btnCancel.BackColor = Program.darkForeground;
+        }
+        else
+        {
+            btnApply.BackColor = Program.lightForeground;
+            btnCancel.BackColor = Program.lightForeground;
+        }
+
   }
 
   protected override void Init() {

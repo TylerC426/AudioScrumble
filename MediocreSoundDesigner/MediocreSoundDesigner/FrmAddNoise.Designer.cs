@@ -50,7 +50,6 @@
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
-
             // 
             // btnApply
             // 
@@ -65,7 +64,6 @@
             btnApply.Text = "Apply";
             btnApply.UseVisualStyleBackColor = false;
             btnApply.Click += btnApply_Click;
-
             // 
             // numericUpDown1
             // 
@@ -113,7 +111,7 @@
             Controls.Add(btnApply);
             Controls.Add(btnCancel);
             Name = "FrmAddNoise";
-            Text = "FrmAddNoise";
+            Text = "Add Noise to Track";
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();

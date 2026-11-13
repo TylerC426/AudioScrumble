@@ -33,7 +33,15 @@ public class TrackManager {
       track.PanDrawSamples.BackColor = Color.DimGray;
     });
     track.PanDrawSamples.BorderStyle = BorderStyle.Fixed3D;
-    track.PanDrawSamples.BackColor = Color.Gray;
+        if (Program.isDarkMode)
+        {
+            track.PanDrawSamples.BackColor = Program.darkForeground;
+        }
+        else
+        {
+            track.PanDrawSamples.BackColor = Program.lightForeground;
+        }
+    
   }
 
   public void RedrawAll() {

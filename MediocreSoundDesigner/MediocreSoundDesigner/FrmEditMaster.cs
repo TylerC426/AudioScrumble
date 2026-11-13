@@ -11,14 +11,14 @@ public partial class FrmEditMaster : Form {
     InitializeComponent();
     if (Program.isDarkMode)
         {
-            BackColor = Color.FromArgb(18, 16, 24);
-            panel1.BackColor = Color.FromArgb(41, 55, 71);
+            BackColor = Program.darkBackground;
+            //panel1.BackColor = Program.darkForeground;
             BackgroundImage = Resources.backgroundTexture;
         }
         else
         {
-            BackColor = Color.FromArgb(206, 234, 215);
-            panel1.BackColor = Color.FromArgb(66, 91, 88);
+            BackColor = Program.lightBackground;
+            //panel1.BackColor = Program.lightForeground;
             BackgroundImage = Resources.backgroundTextureLight;
         }
   }

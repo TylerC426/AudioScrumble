@@ -254,7 +254,7 @@ public partial class FrmMain : Form
         // header panel that will be on left side of track and contain the name label and options button
         Panel trackHeader = new()
         {
-            BackColor = Color.DarkSlateGray,
+            BackColor = Color.FromArgb(87, 116, 117),
             Width = TRACK_HEADER_WIDTH,
             Dock = DockStyle.Left
         };
@@ -265,7 +265,7 @@ public partial class FrmMain : Form
         {
             Text = track.TrackName,
             ForeColor = Color.White,
-            BackColor = Color.DarkSlateGray,
+            BackColor = Color.FromArgb(87, 116, 117),
             Dock = DockStyle.Fill,
             TextAlign = ContentAlignment.MiddleCenter,
             Padding = new Padding(8, 0, 0, 0),
@@ -293,7 +293,7 @@ public partial class FrmMain : Form
             Width = 30,
             Dock = DockStyle.Right,
             FlatStyle = FlatStyle.Flat,
-            BackColor = Color.DarkSlateGray,
+            BackColor = Color.FromArgb(87, 116, 117),
             ForeColor = Color.White,
             Cursor = Cursors.Hand
         };
@@ -683,6 +683,7 @@ public partial class FrmMain : Form
         panTracks.BackColor = Color.FromArgb(18, 16, 24);
         pnlTrackBackground.BackColor = Color.FromArgb(41, 55, 71);
         pnlButtonBackground.BackColor = Color.FromArgb(41, 55, 71);
+        
     }
 
     private void lightToolStripMenuItem_Click(object sender, EventArgs e)
