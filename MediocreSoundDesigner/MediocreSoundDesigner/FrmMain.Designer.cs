@@ -38,6 +38,8 @@
             menuFileOpen = new ToolStripMenuItem();
             menuFileSave = new ToolStripMenuItem();
             menuEdit = new ToolStripMenuItem();
+            menuEditUndo = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
             menuEditFlip = new ToolStripMenuItem();
             menuEditReverse = new ToolStripMenuItem();
             menuEditVolume = new ToolStripMenuItem();
@@ -56,6 +58,7 @@
             trkDrawTimescale = new TrackBar();
             colorDialog = new ColorDialog();
             LoopEnableButton = new Button();
+            menuEditRedo = new ToolStripMenuItem();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
@@ -131,36 +134,49 @@
             // 
             // menuEdit
             // 
-            menuEdit.DropDownItems.AddRange(new ToolStripItem[] { menuEditFlip, menuEditReverse, menuEditVolume, menuEditEliminateSilence });
+            menuEdit.DropDownItems.AddRange(new ToolStripItem[] { menuEditUndo, menuEditRedo, toolStripSeparator1, menuEditFlip, menuEditReverse, menuEditVolume, menuEditEliminateSilence });
             menuEdit.Name = "menuEdit";
             menuEdit.Size = new Size(58, 29);
             menuEdit.Text = "E&dit";
             // 
+            // menuEditUndo
+            // 
+            menuEditUndo.Name = "menuEditUndo";
+            menuEditUndo.ShortcutKeys = Keys.Control | Keys.Z;
+            menuEditUndo.Size = new Size(270, 34);
+            menuEditUndo.Text = "Undo";
+            menuEditUndo.Click += menuEditUndo_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(267, 6);
+            // 
             // menuEditFlip
             // 
             menuEditFlip.Name = "menuEditFlip";
-            menuEditFlip.Size = new Size(256, 34);
+            menuEditFlip.Size = new Size(270, 34);
             menuEditFlip.Text = "Flip";
             menuEditFlip.Click += menuEditFlip_Click;
             // 
             // menuEditReverse
             // 
             menuEditReverse.Name = "menuEditReverse";
-            menuEditReverse.Size = new Size(256, 34);
+            menuEditReverse.Size = new Size(270, 34);
             menuEditReverse.Text = "Reverse";
             menuEditReverse.Click += menuEditReverse_Click;
             // 
             // menuEditVolume
             // 
             menuEditVolume.Name = "menuEditVolume";
-            menuEditVolume.Size = new Size(256, 34);
+            menuEditVolume.Size = new Size(270, 34);
             menuEditVolume.Text = "Alter Volume...";
             menuEditVolume.Click += menuEditVolume_Click;
             // 
             // menuEditEliminateSilence
             // 
             menuEditEliminateSilence.Name = "menuEditEliminateSilence";
-            menuEditEliminateSilence.Size = new Size(256, 34);
+            menuEditEliminateSilence.Size = new Size(270, 34);
             menuEditEliminateSilence.Text = "Eliminate Silence...";
             menuEditEliminateSilence.Click += menuEditEliminateSilence_Click;
             // 
@@ -272,6 +288,14 @@
             LoopEnableButton.UseVisualStyleBackColor = false;
             LoopEnableButton.Click += LoopEnableButton_Click;
             // 
+            // menuEditRedo
+            // 
+            menuEditRedo.Name = "menuEditRedo";
+            menuEditRedo.ShortcutKeys = Keys.Control | Keys.Y;
+            menuEditRedo.Size = new Size(270, 34);
+            menuEditRedo.Text = "Redo";
+            menuEditRedo.Click += menuEditRedo_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -302,31 +326,34 @@
         #endregion
 
         private Panel panTracks;
-    private Label lblDebug;
-    private OpenFileDialog ofdLoadFile;
-    private MenuStrip menu;
-    private ToolStripMenuItem menuEdit;
-    private Button btnPlay;
-    private ToolStripMenuItem menuEditVolume;
-    private ToolStripMenuItem menuEditReverse;
-    private ToolStripMenuItem menuFile;
-    private ToolStripMenuItem menuFileOpen;
-    private ToolStripMenuItem menuFileSave;
-    private System.Windows.Forms.Timer tmrUpdate;
-    private ToolStripMenuItem menuGen;
-    private ToolStripMenuItem menuGenNoise;
-    private ToolStripMenuItem menuGenGradientNoise;
-    private ToolStripMenuItem menuEditFlip;
-    private SaveFileDialog sfdSaveFile;
-    private TrackBar trkDrawTimescale;
-    private ColorDialog colorDialog;
-    private ToolStripMenuItem menuEditEliminateSilence;
-    private Label lblPlayhead;
-    private ToolStripMenuItem menuGenRecord;
-    private ToolStripMenuItem helpToolStripMenuItem;
-    private Button LoopEnableButton;
+        private Label lblDebug;
+        private OpenFileDialog ofdLoadFile;
+        private MenuStrip menu;
+        private ToolStripMenuItem menuEdit;
+        private Button btnPlay;
+        private ToolStripMenuItem menuEditVolume;
+        private ToolStripMenuItem menuEditReverse;
+        private ToolStripMenuItem menuFile;
+        private ToolStripMenuItem menuFileOpen;
+        private ToolStripMenuItem menuFileSave;
+        private System.Windows.Forms.Timer tmrUpdate;
+        private ToolStripMenuItem menuGen;
+        private ToolStripMenuItem menuGenNoise;
+        private ToolStripMenuItem menuGenGradientNoise;
+        private ToolStripMenuItem menuEditFlip;
+        private SaveFileDialog sfdSaveFile;
+        private TrackBar trkDrawTimescale;
+        private ColorDialog colorDialog;
+        private ToolStripMenuItem menuEditEliminateSilence;
+        private Label lblPlayhead;
+        private ToolStripMenuItem menuGenRecord;
+        private ToolStripMenuItem helpToolStripMenuItem;
+        private Button LoopEnableButton;
         private ToolStripMenuItem addSilenceToolStripMenuItem;
         private ToolStripMenuItem addSilenceAsNewToolStripMenuItem;
         private ToolStripMenuItem addNoiseToTrackToolStripMenuItem;
+        private ToolStripMenuItem menuEditUndo;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem menuEditRedo;
     }
 }
