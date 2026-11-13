@@ -882,4 +882,51 @@ public partial class FrmMain : Form
     {
         RedoLastEdit();
     }
+    
+    /// Asks the user if they would like to save before closing.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        // no tracks --> nothing to save
+        if (trackManager.Tracks.Count == 0) return;
+
+        // ask user if they want to save before closing
+        DialogResult result = MessageBox.Show("Do you want to save your audio before closing?",
+                                              "Save Before Closing", 
+                                              MessageBoxButtons.YesNoCancel, 
+                                              MessageBoxIcon.Question);
+
+        // user chooses cancel --> prevent application from closing
+        if (result == DialogResult.Cancel)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        // user chooses no --> close w/out saving
+        if (result == DialogResult.No) return;
+
+        // user chooses yes --> save audio file then close
+        sfdSaveFile.DefaultExt = "wav";
+        if (sfdSaveFile.ShowDialog() == DialogResult.OK)
+        {
+            // need to prevent the application from closing if a save fails for some reason
+            try
+            {
+                trackManager.SaveToFile(sfdSaveFile.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Audio file failed to save:\n{ex.Message}", "Save Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+        }
+        else
+        {
+            // user canceled the save --> prevent application from closing
+            e.Cancel = true;
+        }
+    }
 }
