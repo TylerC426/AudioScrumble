@@ -312,6 +312,18 @@ public class Track : IDisposable {
         }
     }
 
+    /// <summary>
+    /// Restores the track to a previously saved state.
+    /// </summary>
+    /// <param name="state">The saved state, or snapshot, of the track being restored.</param>
+    public void RestoreState(TrackSnapshot state)
+    {
+        ReplaceSamples(state.Samples);
+        Volume = state.Volume;
+        DrawOffset = state.DrawOffset;
+        TrackName = state.TrackName;
+    }
+
     // dispose
     public void Dispose() {
         outputDevice?.Dispose();

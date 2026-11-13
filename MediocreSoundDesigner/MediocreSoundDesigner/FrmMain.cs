@@ -291,6 +291,7 @@ public partial class FrmMain : Form
         // label to display the current name of the track
         Label lblTrackName = new()
         {
+            Name = "lblTrackName",
             Text = track.TrackName,
             ForeColor = Color.White,
             BackColor = Color.DarkSlateGray,
@@ -340,7 +341,7 @@ public partial class FrmMain : Form
             // draw the dots vertically
             using SolidBrush brush = new(Color.White);
 
-            for (int i = 0; i < 3;  i++)
+            for (int i = 0; i < 3; i++)
             {
                 e.Graphics.FillEllipse(brush, center - 2, 7 + (i * 7), 4, 4);
             }
@@ -357,9 +358,12 @@ public partial class FrmMain : Form
         // allows user to select what view mode is being used
         ComboBox viewSelector = new()
         {
-            DropDownStyle = ComboBoxStyle.DropDownList, Width = 105,
-            Dock = DockStyle.None, BackColor = Color.DarkSlateGray,
-            ForeColor = Color.White, FlatStyle = FlatStyle.Flat
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            Width = 105,
+            Dock = DockStyle.None,
+            BackColor = Color.DarkSlateGray,
+            ForeColor = Color.White,
+            FlatStyle = FlatStyle.Flat
         };
 
         // adds the options to the view selector
@@ -593,7 +597,7 @@ public partial class FrmMain : Form
 
                     // set spectrogram's position and dimensions
                     Rectangle bounds = new(
-                        track.DrawOffset, 0,width,
+                        track.DrawOffset, 0, width,
                         waveForm.ClientSize.Height
                     );
 
@@ -766,7 +770,6 @@ public partial class FrmMain : Form
             frm.BeforeApply += history.SaveState;
             frm.ShowDialog();
 
-            // update spectrogram and redraw track
             UpdateSpectrogram(trackManager.SelectedTrack);
             trackManager.SelectedTrack.PanDrawSamples.Invalidate();
         }
@@ -819,5 +822,64 @@ public partial class FrmMain : Form
         {
             track.Spectrogram.Generate(track);
         }
+    }
+
+    /// <summary>
+    /// Undoes the most recent edit performed.
+    /// </summary>
+    private void UndoLastEdit()
+    {
+        // get last state entry and check to make sure its not null
+        HistoryEntry entry = history.Undo();
+        if (entry == null) return;
+
+        // restore original track using the snapshot
+        Track track = entry.OgTrack;
+        track.RestoreState(entry.Snapshot);
+        UpdateTrackName(track);
+        UpdateSpectrogram(track);
+        track.PanDrawSamples?.Invalidate();
+    }
+
+    /// <summary>
+    /// Redoes the most recently undone edit.
+    /// </summary>
+    private void RedoLastEdit()
+    {
+        HistoryEntry entry = history.Redo();
+        if (entry == null) return;
+
+        Track track = entry.OgTrack;
+        track.RestoreState(entry.Snapshot);
+        UpdateTrackName(track);
+        UpdateSpectrogram(track);
+        track.PanDrawSamples?.Invalidate();
+
+    }
+
+    /// <summary>
+    /// Updates the text for the lblTrackName Label so the correct name can be displayed.
+    /// </summary>
+    /// <param name="track"></param>
+    private void UpdateTrackName(Track track)
+    {
+        Panel pan = (Panel)track.PanDrawSamples.Parent;
+
+        Control[] labels = pan.Controls.Find("lblTrackName", true);
+
+        if (labels.Length > 0)
+        {
+            labels[0].Text = track.TrackName;
+        }
+    }
+
+    private void menuEditUndo_Click(object sender, EventArgs e)
+    {
+        UndoLastEdit();
+    }
+
+    private void menuEditRedo_Click(object sender, EventArgs e)
+    {
+        RedoLastEdit();
     }
 }
