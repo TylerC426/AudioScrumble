@@ -7,12 +7,13 @@ public partial class FrmMain : Form
     // constants
     private const int TRACK_HEADER_WIDTH = 210;       // base width for the track headers
     private const int DEFAULT_TRACK_HEIGHT = 150;     // base height for each track
-    private const int MIN_TRACK_HEIGHT = 100;          // there has to be a minimum to avoid it being made too small or going over itself when resized
+    private const int MIN_TRACK_HEIGHT = 100;         // there has to be a minimum to avoid it being made too small or going over itself when resized
     private const int RESIZE_HANDLE_HEIGHT = 6;       // height of the draggable area at bottom of each track
 
     // fields
     private TrackManager trackManager;
     private bool isLooping;
+    private readonly HistoryManager history = new();
 
     // ctor
     public FrmMain()
@@ -23,7 +24,7 @@ public partial class FrmMain : Form
 
     // setup
     /// <summary>
-    /// A method that handles the setup of the Track Manager and the track display area
+    /// Handles the setup of the Track Manager and the track display area
     /// </summary>
     private void Setup()
     {
@@ -122,22 +123,26 @@ public partial class FrmMain : Form
 
     private void menuEditFlip_Click(object sender, EventArgs e)
     {
-        trackManager.SelectedTrack?.Flip();
-
-        // update spectrogram and redraw track
         if (trackManager.SelectedTrack is not null)
         {
+            // save tracks current state before applying edit
+            history.SaveState(trackManager.SelectedTrack);
+            trackManager.SelectedTrack.Flip();
+
+            // update spectrogram and redraw track
             UpdateSpectrogram(trackManager.SelectedTrack);
             trackManager.SelectedTrack.PanDrawSamples.Invalidate();
         }
     }
     private void menuEditReverse_Click(object sender, EventArgs e)
     {
-        trackManager.SelectedTrack?.Reverse();
-
-        // update spectrogram and redraw track
         if (trackManager.SelectedTrack is not null)
         {
+            // save tracks current state before applying edit
+            history.SaveState(trackManager.SelectedTrack);
+            trackManager.SelectedTrack.Reverse();
+
+            // update spectrogram and redraw track
             UpdateSpectrogram(trackManager.SelectedTrack);
             trackManager.SelectedTrack.PanDrawSamples.Invalidate();
         }
@@ -148,6 +153,10 @@ public partial class FrmMain : Form
         {
             FrmEditVolume frm = new();
             frm.SetSound(trackManager.SelectedTrack);
+
+            // will save the state before edit is applied as soon as Apply is clicked
+            frm.BeforeApply += history.SaveState;
+
             frm.ShowDialog();
         }
     }
@@ -157,6 +166,7 @@ public partial class FrmMain : Form
         {
             FrmEditEliminateSilence frm = new();
             frm.SetSound(trackManager.SelectedTrack);
+            frm.BeforeApply += history.SaveState;
             frm.ShowDialog();
 
             // update spectrogram and redraw track
@@ -252,7 +262,7 @@ public partial class FrmMain : Form
 
     // Helper methods
     /// <summary>
-    /// A method to create a panel for a new track
+    /// Creates a panel for the track.
     /// </summary>
     /// <param name="track">The new track being added.</param>
     /// <returns>The panel of the newly added track.</returns>
@@ -410,8 +420,9 @@ public partial class FrmMain : Form
                     string newName = txtRename.Text.Trim();
 
                     // makes sure the name is not empty before saving it
-                    if (!string.IsNullOrWhiteSpace(newName))
+                    if (!string.IsNullOrWhiteSpace(newName) && newName != track.TrackName)
                     {
+                        history.SaveState(track);
                         track.TrackName = newName;
                         lblTrackName.Text = newName;
                     }
@@ -605,7 +616,7 @@ public partial class FrmMain : Form
     }
 
     /// <summary>
-    /// A method that updates the sizes for each displayed track.
+    /// Updates the sizes for each displayed track.
     /// </summary>
     private void UpdateSizes()
     {
@@ -670,7 +681,7 @@ public partial class FrmMain : Form
     }
 
     /// <summary>
-    /// A method that deletes the given track.
+    /// Deletes the given track.
     /// </summary>
     /// <param name="track"> The track to be deleted.</param>
     private void DeleteTrack(Track track)
@@ -689,6 +700,9 @@ public partial class FrmMain : Form
 
         // get parent panel of the track
         Panel pan = (Panel)track.PanDrawSamples.Parent;
+
+        // remove the tracks past states from the history
+        history.RemoveTrackHistory(track);
 
         // remove the track from the manage
         trackManager.RemTrack(track);
@@ -749,6 +763,7 @@ public partial class FrmMain : Form
         {
             FrmAddSilence frm = new();
             frm.SetSound(trackManager.SelectedTrack);
+            frm.BeforeApply += history.SaveState;
             frm.ShowDialog();
 
             // update spectrogram and redraw track
@@ -779,6 +794,7 @@ public partial class FrmMain : Form
         {
             FrmAddNoise frm = new();
             frm.SetSound(trackManager.SelectedTrack);
+            frm.BeforeApply += history.SaveState;
             frm.ShowDialog();
 
             // update spectrogram and redraw track
