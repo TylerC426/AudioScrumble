@@ -5,9 +5,9 @@ namespace MediocreSoundDesigner;
 public partial class FrmMain : Form
 {
     // constants
-    private const int TRACK_HEADER_WIDTH = 170;       // base width for the track headers
+    private const int TRACK_HEADER_WIDTH = 210;       // base width for the track headers
     private const int DEFAULT_TRACK_HEIGHT = 150;     // base height for each track
-    private const int MIN_TRACK_HEIGHT = 60;          // there has to be a minimum to avoid it being made too small or going over itself when resized
+    private const int MIN_TRACK_HEIGHT = 100;          // there has to be a minimum to avoid it being made too small or going over itself when resized
     private const int RESIZE_HANDLE_HEIGHT = 6;       // height of the draggable area at bottom of each track
 
     // fields
@@ -123,10 +123,24 @@ public partial class FrmMain : Form
     private void menuEditFlip_Click(object sender, EventArgs e)
     {
         trackManager.SelectedTrack?.Flip();
+
+        // update spectrogram and redraw track
+        if (trackManager.SelectedTrack is not null)
+        {
+            UpdateSpectrogram(trackManager.SelectedTrack);
+            trackManager.SelectedTrack.PanDrawSamples.Invalidate();
+        }
     }
     private void menuEditReverse_Click(object sender, EventArgs e)
     {
         trackManager.SelectedTrack?.Reverse();
+
+        // update spectrogram and redraw track
+        if (trackManager.SelectedTrack is not null)
+        {
+            UpdateSpectrogram(trackManager.SelectedTrack);
+            trackManager.SelectedTrack.PanDrawSamples.Invalidate();
+        }
     }
     private void menuEditVolume_Click(object sender, EventArgs e)
     {
@@ -144,6 +158,10 @@ public partial class FrmMain : Form
             FrmEditEliminateSilence frm = new();
             frm.SetSound(trackManager.SelectedTrack);
             frm.ShowDialog();
+
+            // update spectrogram and redraw track
+            UpdateSpectrogram(trackManager.SelectedTrack);
+            trackManager.SelectedTrack.PanDrawSamples.Invalidate();
         }
     }
 
@@ -267,8 +285,8 @@ public partial class FrmMain : Form
             ForeColor = Color.White,
             BackColor = Color.DarkSlateGray,
             Dock = DockStyle.Fill,
-            TextAlign = ContentAlignment.MiddleCenter,
-            Padding = new Padding(8, 0, 0, 0),
+            TextAlign = ContentAlignment.MiddleLeft,
+            Padding = Padding.Empty,
             AutoEllipsis = true
         };
 
@@ -289,16 +307,34 @@ public partial class FrmMain : Form
         // should be displayed to the right of the track name
         Button trackOptions = new()
         {
-            Text = "\u22EE",
+            Text = "",
             Width = 30,
-            Dock = DockStyle.Right,
+            Height = 30,
+            Dock = DockStyle.None,
+            Anchor = AnchorStyles.Top | AnchorStyles.Right,
+            Location = new Point(TRACK_HEADER_WIDTH - 35, 5),
             FlatStyle = FlatStyle.Flat,
             BackColor = Color.DarkSlateGray,
             ForeColor = Color.White,
-            Cursor = Cursors.Hand
+            Cursor = Cursors.Hand,
         };
         // removes the default button border
         trackOptions.FlatAppearance.BorderSize = 0;
+
+        // draw three dots for track options icon
+        trackOptions.Paint += (sender, e) =>
+        {
+            // center dots horizontally within button
+            int center = trackOptions.ClientSize.Width / 2;
+
+            // draw the dots vertically
+            using SolidBrush brush = new(Color.White);
+
+            for (int i = 0; i < 3; i++)
+            {
+                e.Graphics.FillEllipse(brush, center - 2, 7 + (i * 7), 4, 4);
+            }
+        };
 
 
         // click event for the trackOptions button
@@ -306,6 +342,37 @@ public partial class FrmMain : Form
         trackOptions.Click += (sender, e) =>
         {
             trackMenu.Show(trackOptions, 0, trackOptions.Height);
+        };
+
+        // allows user to select what view mode is being used
+        ComboBox viewSelector = new()
+        {
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            Width = 105,
+            Dock = DockStyle.None,
+            BackColor = Color.DarkSlateGray,
+            ForeColor = Color.White,
+            FlatStyle = FlatStyle.Flat
+        };
+
+        // adds the options to the view selector
+        viewSelector.Items.Add("Waveform");
+        viewSelector.Items.Add("Spectrogram");
+
+        // the current selected view option
+        viewSelector.SelectedIndex = (int)track.View;
+
+        // event that handles the changing of the view mode
+        viewSelector.SelectedIndexChanged += (sender, e) =>
+        {
+            // update the tracks selected view
+            track.View = (ViewMode)viewSelector.SelectedIndex;
+
+            // generate the spectrogram if needed
+            UpdateSpectrogram(track);
+
+            // tells WinForms that panel needs to be repainted
+            track.PanDrawSamples?.Invalidate();
         };
 
         // handles events for the context menu options
@@ -376,10 +443,31 @@ public partial class FrmMain : Form
         };
 
 
-        // adds the name label and options button to the header
-        // the order here DOES matter
-        trackHeader.Controls.Add(lblTrackName);
+        // arrange track name and view selector near the top
+        Panel headerLayout = new()
+        {
+            Dock = DockStyle.Fill,
+            Padding = new Padding(5)
+        };
+
+        // postion track name above view selector
+        lblTrackName.Dock = DockStyle.None;
+        lblTrackName.Location = new Point(5, 5);
+        lblTrackName.Size = new Size(TRACK_HEADER_WIDTH - 50, 25);
+        lblTrackName.TextAlign = ContentAlignment.MiddleLeft;
+
+        // position view selector below track name
+        viewSelector.Dock = DockStyle.None;
+        viewSelector.Location = new Point(5, 40);
+        viewSelector.Width = TRACK_HEADER_WIDTH - 50;
+
+        // add controls to header
+        headerLayout.Controls.Add(lblTrackName);
+        headerLayout.Controls.Add(viewSelector);
+
+        trackHeader.Controls.Add(headerLayout);
         trackHeader.Controls.Add(trackOptions);
+        trackOptions.BringToFront();
 
 
         // will use this for displaying the wave form
@@ -485,7 +573,26 @@ public partial class FrmMain : Form
         // draws the waveform whenever its panel needs to be redrawn
         waveForm.Paint += (sender, e) =>
         {
-            track.DrawSamples(e.Graphics, trackManager.DrawTimescale);
+            switch (track.View)
+            {
+                case ViewMode.Waveform:
+                    track.DrawSamples(e.Graphics, trackManager.DrawTimescale);
+                    break;
+
+                case ViewMode.Spectrogram:
+                    // calculate width of spectrogram to match waveform
+                    int width = (int)Math.Ceiling((double)track.Samples.Length / trackManager.DrawTimescale);
+
+                    // set spectrogram's position and dimensions
+                    Rectangle bounds = new(
+                        track.DrawOffset, 0, width,
+                        waveForm.ClientSize.Height
+                    );
+
+                    // draw cached spectrogram
+                    track.Spectrogram.Draw(e.Graphics, bounds, track.IsDisabled);
+                    break;
+            }
         };
 
         // adds full track panel to the track container
@@ -646,6 +753,10 @@ public partial class FrmMain : Form
             FrmAddSilence frm = new();
             frm.SetSound(trackManager.SelectedTrack);
             frm.ShowDialog();
+
+            // update spectrogram and redraw track
+            UpdateSpectrogram(trackManager.SelectedTrack);
+            trackManager.SelectedTrack.PanDrawSamples.Invalidate();
         }
     }
 
@@ -672,6 +783,10 @@ public partial class FrmMain : Form
             FrmAddNoise frm = new();
             frm.SetSound(trackManager.SelectedTrack);
             frm.ShowDialog();
+
+            // update spectrogram and redraw track
+            UpdateSpectrogram(trackManager.SelectedTrack);
+            trackManager.SelectedTrack.PanDrawSamples.Invalidate();
         }
     }
 
@@ -679,4 +794,65 @@ public partial class FrmMain : Form
     //{
 
     //}
+
+    /// <summary>
+    /// Updates the spectrogram if the selected track is displaying it.
+    /// </summary>
+    /// <param name="track">The track being updated.</param>
+    private void UpdateSpectrogram(Track track)
+    {
+        // generate spectrogram only if it is selected and not cached
+        if (track.View == ViewMode.Spectrogram && !track.Spectrogram.HasImage && track.SampleRate > 0)
+        {
+            track.Spectrogram.Generate(track);
+        }
+    }
+
+    /// <summary>
+    /// Asks the user if they would like to save before closing.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        // no tracks --> nothing to save
+        if (trackManager.Tracks.Count == 0) return;
+
+        // ask user if they want to save before closing
+        DialogResult result = MessageBox.Show("Do you want to save your audio before closing?",
+                                              "Save Before Closing", 
+                                              MessageBoxButtons.YesNoCancel, 
+                                              MessageBoxIcon.Question);
+
+        // user chooses cancel --> prevent application from closing
+        if (result == DialogResult.Cancel)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        // user chooses no --> close w/out saving
+        if (result == DialogResult.No) return;
+
+        // user chooses yes --> save audio file then close
+        sfdSaveFile.DefaultExt = "wav";
+        if (sfdSaveFile.ShowDialog() == DialogResult.OK)
+        {
+            // need to prevent the application from closing if a save fails for some reason
+            try
+            {
+                trackManager.SaveToFile(sfdSaveFile.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Audio file failed to save:\n{ex.Message}", "Save Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+        }
+        else
+        {
+            // user canceled the save --> prevent application from closing
+            e.Cancel = true;
+        }
+    }
 }
