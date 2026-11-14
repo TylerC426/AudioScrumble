@@ -90,13 +90,13 @@ public partial class FrmMain : Form
         if (trackManager.State is NAudio.Wave.PlaybackState.Stopped or NAudio.Wave.PlaybackState.Paused)
         {
             trackManager.PlayAll();
-            btnPlay.BackgroundImage = Resources.pause;
+            btnPlay.BackgroundImage = Resources.pauseFromPlay;
             LoopTracks();
         }
         else
         {
             trackManager.PauseAll();
-            btnPlay.BackgroundImage = Resources.play;
+            btnPlay.BackgroundImage = Resources.playFromPause;
         }
     }
 
@@ -284,7 +284,7 @@ public partial class FrmMain : Form
         // header panel that will be on left side of track and contain the name label and options button
         Panel trackHeader = new()
         {
-            BackColor = Color.DarkSlateGray,
+            BackColor = Color.FromArgb(87, 116, 117),
             Width = TRACK_HEADER_WIDTH,
             Dock = DockStyle.Left
         };
@@ -296,7 +296,7 @@ public partial class FrmMain : Form
             Name = "lblTrackName",
             Text = track.TrackName,
             ForeColor = Color.White,
-            BackColor = Color.DarkSlateGray,
+            BackColor = Color.FromArgb(87, 116, 117),
             Dock = DockStyle.Fill,
             TextAlign = ContentAlignment.MiddleLeft,
             Padding = Padding.Empty,
@@ -327,7 +327,7 @@ public partial class FrmMain : Form
             Anchor = AnchorStyles.Top | AnchorStyles.Right,
             Location = new Point(TRACK_HEADER_WIDTH - 35, 5),
             FlatStyle = FlatStyle.Flat,
-            BackColor = Color.DarkSlateGray,
+            BackColor = Color.FromArgb(87, 116, 117),
             ForeColor = Color.White,
             Cursor = Cursors.Hand,
         };
@@ -733,12 +733,12 @@ public partial class FrmMain : Form
         if (isLooping)
         {
             isLooping = false;
-            LoopEnableButton.BackColor = Color.Red;
+            LoopEnableButton.BackgroundImage = Resources.loopFalse;
         }
         else
         {
             isLooping = true;
-            LoopEnableButton.BackColor = Color.Green;
+            LoopEnableButton.BackgroundImage = Resources.loop;
         }
     }
 
@@ -805,6 +805,42 @@ public partial class FrmMain : Form
             // update spectrogram and redraw track
             UpdateSpectrogram(trackManager.SelectedTrack);
             trackManager.SelectedTrack.PanDrawSamples.Invalidate();
+        }
+    }
+
+    private void darkToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        Program.isDarkMode = true;
+        BackgroundImage = Resources.backgroundTexture;
+        BackColor = Color.FromArgb(18, 16, 24);
+        panTracks.BackColor = Color.FromArgb(18, 16, 24);
+        pnlTrackBackground.BackColor = Color.FromArgb(41, 55, 71);
+        pnlButtonBackground.BackColor = Color.FromArgb(41, 55, 71);
+
+    }
+
+    private void lightToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        Program.isDarkMode = false;
+        BackgroundImage = Resources.backgroundTextureLight;
+        BackColor = Color.FromArgb(206, 234, 215);
+        panTracks.BackColor = Color.FromArgb(206, 234, 215);
+        pnlTrackBackground.BackColor = Color.FromArgb(66, 91, 88);
+        pnlButtonBackground.BackColor = Color.FromArgb(66, 91, 88);
+    }
+
+    private void panTracks_Paint(object sender, PaintEventArgs e)
+    {
+
+    }
+
+    private void alterSpeedToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (trackManager.SelectedTrack is not null)
+        {
+            FrmSpeedUp frm = new();
+            frm.SetSound(trackManager.SelectedTrack);
+            frm.ShowDialog();
         }
     }
 

@@ -1,14 +1,28 @@
-﻿namespace MediocreSoundDesigner;
+﻿using MediocreSoundDesigner.Properties;
+
+namespace MediocreSoundDesigner;
 
 public partial class FrmEditMaster : Form {
     // fields
     protected Track track;
     public event Action<Track> BeforeApply;
 
-    // ctor
-    public FrmEditMaster() {
-        InitializeComponent();
-    }
+  // ctor
+  public FrmEditMaster() {
+    InitializeComponent();
+    if (Program.isDarkMode)
+        {
+            BackColor = Program.darkBackground;
+            //panel1.BackColor = Program.darkForeground;
+            BackgroundImage = Resources.backgroundTexture;
+        }
+        else
+        {
+            BackColor = Program.lightBackground;
+            //panel1.BackColor = Program.lightForeground;
+            BackgroundImage = Resources.backgroundTextureLight;
+        }
+  }
 
     // sound
     public virtual void SetSound(Track sound) {

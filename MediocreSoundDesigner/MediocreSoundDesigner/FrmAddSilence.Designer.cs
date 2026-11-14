@@ -50,7 +50,6 @@
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
-
             // 
             // btnApply
             // 
@@ -113,7 +112,7 @@
             Controls.Add(btnApply);
             Controls.Add(btnCancel);
             Name = "FrmAddSilence";
-            Text = "FrmAddSilence";
+            Text = "Add Silence to Track";
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();

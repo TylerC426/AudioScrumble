@@ -28,13 +28,21 @@ public class TrackManager {
 
 	public void SelectTrack(Track track) {
 		SelectedTrack = track;
-        Tracks.ForEach(track => {
-            track.PanDrawSamples.BorderStyle = BorderStyle.None;
-            track.PanDrawSamples.BackColor = Color.DimGray;
-        });
-        track.PanDrawSamples.BorderStyle = BorderStyle.Fixed3D;
-        track.PanDrawSamples.BackColor = Color.Gray;
-    }
+    Tracks.ForEach(track => {
+      track.PanDrawSamples.BorderStyle = BorderStyle.None;
+      track.PanDrawSamples.BackColor = Color.DimGray;
+    });
+    track.PanDrawSamples.BorderStyle = BorderStyle.Fixed3D;
+        if (Program.isDarkMode)
+        {
+            track.PanDrawSamples.BackColor = Program.darkForeground;
+        }
+        else
+        {
+            track.PanDrawSamples.BackColor = Program.lightForeground;
+        }
+    
+  }
 
     public void RedrawAll() {
         Tracks.ForEach(track => track.PanDrawSamples.Invalidate());

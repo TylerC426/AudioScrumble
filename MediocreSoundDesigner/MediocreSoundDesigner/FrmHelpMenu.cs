@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediocreSoundDesigner.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,20 @@ namespace MediocreSoundDesigner
         public FrmHelpMenu()
         {
             InitializeComponent();
+            if (Program.isDarkMode)
+            {
+                BackgroundImage = Resources.backgroundTexture;
+                BackColor = Program.darkBackground;
+                richTextBox1.BackColor = Program.darkForeground;
+                richTextBox1.ForeColor = Color.White;
+            }
+            else
+            {
+                BackgroundImage = Resources.backgroundTextureLight;
+                BackColor = Program.lightForeground;
+                richTextBox1.BackColor = Program.lightBackground;
+                richTextBox1.ForeColor = Color.Black;
+            }
         }
     }
 }

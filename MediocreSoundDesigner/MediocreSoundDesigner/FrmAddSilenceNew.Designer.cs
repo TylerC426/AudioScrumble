@@ -88,7 +88,7 @@
             Controls.Add(numericUpDown1);
             Controls.Add(label1);
             Name = "FrmAddSilenceNew";
-            Text = "FrmAddSilenceNew";
+            Text = "Add Silence as New Track";
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();
