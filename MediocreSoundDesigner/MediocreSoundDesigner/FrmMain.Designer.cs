@@ -61,6 +61,7 @@
             LoopEnableButton = new Button();
             pnlTrackBackground = new Panel();
             pnlButtonBackground = new Panel();
+            alterSpeedToolStripMenuItem = new ToolStripMenuItem();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
@@ -78,6 +79,7 @@
             panTracks.Name = "panTracks";
             panTracks.Size = new Size(1497, 508);
             panTracks.TabIndex = 0;
+            panTracks.Paint += panTracks_Paint;
             // 
             // lblPlayhead
             // 
@@ -134,7 +136,7 @@
             // 
             // menuEdit
             // 
-            menuEdit.DropDownItems.AddRange(new ToolStripItem[] { menuEditFlip, menuEditReverse, menuEditVolume, menuEditEliminateSilence });
+            menuEdit.DropDownItems.AddRange(new ToolStripItem[] { menuEditFlip, menuEditReverse, menuEditVolume, alterSpeedToolStripMenuItem, menuEditEliminateSilence });
             menuEdit.Name = "menuEdit";
             menuEdit.Size = new Size(39, 20);
             menuEdit.Text = "E&dit";
@@ -142,28 +144,28 @@
             // menuEditFlip
             // 
             menuEditFlip.Name = "menuEditFlip";
-            menuEditFlip.Size = new Size(172, 22);
+            menuEditFlip.Size = new Size(180, 22);
             menuEditFlip.Text = "Flip";
             menuEditFlip.Click += menuEditFlip_Click;
             // 
             // menuEditReverse
             // 
             menuEditReverse.Name = "menuEditReverse";
-            menuEditReverse.Size = new Size(172, 22);
+            menuEditReverse.Size = new Size(180, 22);
             menuEditReverse.Text = "Reverse";
             menuEditReverse.Click += menuEditReverse_Click;
             // 
             // menuEditVolume
             // 
             menuEditVolume.Name = "menuEditVolume";
-            menuEditVolume.Size = new Size(172, 22);
+            menuEditVolume.Size = new Size(180, 22);
             menuEditVolume.Text = "Alter Volume...";
             menuEditVolume.Click += menuEditVolume_Click;
             // 
             // menuEditEliminateSilence
             // 
             menuEditEliminateSilence.Name = "menuEditEliminateSilence";
-            menuEditEliminateSilence.Size = new Size(172, 22);
+            menuEditEliminateSilence.Size = new Size(180, 22);
             menuEditEliminateSilence.Text = "Eliminate Silence...";
             menuEditEliminateSilence.Click += menuEditEliminateSilence_Click;
             // 
@@ -315,6 +317,13 @@
             pnlButtonBackground.Size = new Size(266, 110);
             pnlButtonBackground.TabIndex = 10;
             // 
+            // alterSpeedToolStripMenuItem
+            // 
+            alterSpeedToolStripMenuItem.Name = "alterSpeedToolStripMenuItem";
+            alterSpeedToolStripMenuItem.Size = new Size(180, 22);
+            alterSpeedToolStripMenuItem.Text = "Alter Speed...";
+            alterSpeedToolStripMenuItem.Click += alterSpeedToolStripMenuItem_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -379,5 +388,6 @@
         private ToolStripMenuItem lightToolStripMenuItem;
         private Panel pnlTrackBackground;
         private Panel pnlButtonBackground;
+        private ToolStripMenuItem alterSpeedToolStripMenuItem;
     }
 }

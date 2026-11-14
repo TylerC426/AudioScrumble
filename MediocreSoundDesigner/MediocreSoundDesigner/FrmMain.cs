@@ -683,7 +683,7 @@ public partial class FrmMain : Form
         panTracks.BackColor = Color.FromArgb(18, 16, 24);
         pnlTrackBackground.BackColor = Color.FromArgb(41, 55, 71);
         pnlButtonBackground.BackColor = Color.FromArgb(41, 55, 71);
-        
+
     }
 
     private void lightToolStripMenuItem_Click(object sender, EventArgs e)
@@ -694,6 +694,21 @@ public partial class FrmMain : Form
         panTracks.BackColor = Color.FromArgb(206, 234, 215);
         pnlTrackBackground.BackColor = Color.FromArgb(66, 91, 88);
         pnlButtonBackground.BackColor = Color.FromArgb(66, 91, 88);
+    }
+
+    private void panTracks_Paint(object sender, PaintEventArgs e)
+    {
+
+    }
+
+    private void alterSpeedToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (trackManager.SelectedTrack is not null)
+        {
+            FrmSpeedUp frm = new();
+            frm.SetSound(trackManager.SelectedTrack);
+            frm.ShowDialog();
+        }
     }
 
     //public void addSilenceNewHelper(float duration)

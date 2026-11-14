@@ -286,4 +286,38 @@ public class Track : IDisposable {
     outputDevice?.Dispose();
     fileReader?.Dispose();
   }
+
+    public void AlterSpeed(int isSpedUp, int byWhat)
+    {
+        float[] oldSamples = CloneSamples();
+        List<float> newSamples = [0.0f];
+
+        if (isSpedUp == 0)
+        {
+            for (int i = 0; i < oldSamples.Length; i++)
+            {
+                if (i % byWhat == 0)
+                {
+                    newSamples.Add((float)oldSamples[i]);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < oldSamples.Length; i++)
+            {
+                if (i % byWhat != 0)
+                {
+                    newSamples.Add(newSamples[newSamples.Count - 1]);
+                    newSamples.Add(newSamples[newSamples.Count - 1]);
+                }
+                else
+                {
+                    newSamples.Add((float)oldSamples[i]);
+                }
+            }
+        }
+
+        samples = newSamples.ToArray();
+    }
 }

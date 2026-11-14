@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmGenRecord));
             btnApply = new Button();
             btnCancel = new Button();
             btnRecord = new Button();
@@ -61,17 +62,17 @@
             // btnRecord
             // 
             btnRecord.AutoSize = true;
-            btnRecord.BackColor = Color.Black;
-            btnRecord.BackgroundImage = Properties.Resources.record;
+            btnRecord.BackColor = Color.Transparent;
+            btnRecord.BackgroundImage = (Image)resources.GetObject("btnRecord.BackgroundImage");
             btnRecord.BackgroundImageLayout = ImageLayout.Stretch;
             btnRecord.FlatStyle = FlatStyle.Popup;
             btnRecord.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRecord.ForeColor = Color.Red;
-            btnRecord.Location = new Point(129, 29);
+            btnRecord.Location = new Point(149, 28);
             btnRecord.Margin = new Padding(7);
             btnRecord.Name = "btnRecord";
             btnRecord.Padding = new Padding(5);
-            btnRecord.Size = new Size(125, 110);
+            btnRecord.Size = new Size(113, 110);
             btnRecord.TabIndex = 4;
             btnRecord.UseVisualStyleBackColor = false;
             btnRecord.Click += btnRecord_Click;
