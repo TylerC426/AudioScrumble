@@ -39,6 +39,7 @@
             menuFileSave = new ToolStripMenuItem();
             menuEdit = new ToolStripMenuItem();
             menuEditUndo = new ToolStripMenuItem();
+            menuEditRedo = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             menuEditFlip = new ToolStripMenuItem();
             menuEditReverse = new ToolStripMenuItem();
@@ -58,7 +59,7 @@
             trkDrawTimescale = new TrackBar();
             colorDialog = new ColorDialog();
             LoopEnableButton = new Button();
-            menuEditRedo = new ToolStripMenuItem();
+            btnPlayFromBeginning = new Button();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
@@ -143,40 +144,48 @@
             // 
             menuEditUndo.Name = "menuEditUndo";
             menuEditUndo.ShortcutKeys = Keys.Control | Keys.Z;
-            menuEditUndo.Size = new Size(270, 34);
+            menuEditUndo.Size = new Size(256, 34);
             menuEditUndo.Text = "Undo";
             menuEditUndo.Click += menuEditUndo_Click;
+            // 
+            // menuEditRedo
+            // 
+            menuEditRedo.Name = "menuEditRedo";
+            menuEditRedo.ShortcutKeys = Keys.Control | Keys.Y;
+            menuEditRedo.Size = new Size(256, 34);
+            menuEditRedo.Text = "Redo";
+            menuEditRedo.Click += menuEditRedo_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(267, 6);
+            toolStripSeparator1.Size = new Size(253, 6);
             // 
             // menuEditFlip
             // 
             menuEditFlip.Name = "menuEditFlip";
-            menuEditFlip.Size = new Size(270, 34);
+            menuEditFlip.Size = new Size(256, 34);
             menuEditFlip.Text = "Flip";
             menuEditFlip.Click += menuEditFlip_Click;
             // 
             // menuEditReverse
             // 
             menuEditReverse.Name = "menuEditReverse";
-            menuEditReverse.Size = new Size(270, 34);
+            menuEditReverse.Size = new Size(256, 34);
             menuEditReverse.Text = "Reverse";
             menuEditReverse.Click += menuEditReverse_Click;
             // 
             // menuEditVolume
             // 
             menuEditVolume.Name = "menuEditVolume";
-            menuEditVolume.Size = new Size(270, 34);
+            menuEditVolume.Size = new Size(256, 34);
             menuEditVolume.Text = "Alter Volume...";
             menuEditVolume.Click += menuEditVolume_Click;
             // 
             // menuEditEliminateSilence
             // 
             menuEditEliminateSilence.Name = "menuEditEliminateSilence";
-            menuEditEliminateSilence.Size = new Size(270, 34);
+            menuEditEliminateSilence.Size = new Size(256, 34);
             menuEditEliminateSilence.Text = "Eliminate Silence...";
             menuEditEliminateSilence.Click += menuEditEliminateSilence_Click;
             // 
@@ -288,13 +297,15 @@
             LoopEnableButton.UseVisualStyleBackColor = false;
             LoopEnableButton.Click += LoopEnableButton_Click;
             // 
-            // menuEditRedo
+            // btnPlayFromBeginning
             // 
-            menuEditRedo.Name = "menuEditRedo";
-            menuEditRedo.ShortcutKeys = Keys.Control | Keys.Y;
-            menuEditRedo.Size = new Size(270, 34);
-            menuEditRedo.Text = "Redo";
-            menuEditRedo.Click += menuEditRedo_Click;
+            btnPlayFromBeginning.Location = new Point(841, 1102);
+            btnPlayFromBeginning.Name = "btnPlayFromBeginning";
+            btnPlayFromBeginning.Size = new Size(143, 167);
+            btnPlayFromBeginning.TabIndex = 9;
+            btnPlayFromBeginning.Text = "Restart";
+            btnPlayFromBeginning.UseVisualStyleBackColor = true;
+            btnPlayFromBeginning.Click += btnPlayFromBeginning_Click;
             // 
             // FrmMain
             // 
@@ -302,6 +313,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(2291, 1305);
+            Controls.Add(btnPlayFromBeginning);
             Controls.Add(LoopEnableButton);
             Controls.Add(trkDrawTimescale);
             Controls.Add(btnPlay);
@@ -355,5 +367,6 @@
         private ToolStripMenuItem menuEditUndo;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem menuEditRedo;
+        private Button btnPlayFromBeginning;
     }
 }
