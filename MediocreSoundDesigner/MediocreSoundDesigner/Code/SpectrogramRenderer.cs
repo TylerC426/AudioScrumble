@@ -6,11 +6,11 @@ using NWaves.Transforms;
 
 namespace MediocreSoundDesigner;
 
-public class SpectrogramRenderer //: IDisposable
+public class SpectrogramRenderer
 {
     // constants
     private const int WindowSize = 4096;    // num audio samples analyzed at a given time
-    private const int HopSize = 1024;        // num samples to move forward between analyses
+    private const int HopSize = 512;        // num samples to move forward between analyses
 
     // fields
     private Bitmap? spectImage;             // stores the generated spectrogram image
@@ -112,12 +112,19 @@ public class SpectrogramRenderer //: IDisposable
                 double position = (double)y / (height - 1);
                 double frequency = Math.Pow(10, logMin + position * (logMax - logMin));
 
-                // find closest frequency bin in spectrum
-                int bin = (int)Math.Round(frequency * WindowSize / sampleRate);
-                bin = Math.Clamp(bin, 0, spectrum[x].Length - 1);
+                //// find closest frequency bin in spectrum
+                //int bin = (int)Math.Round(frequency * WindowSize / sampleRate);
+                //bin = Math.Clamp(bin, 0, spectrum[x].Length - 1);
+
+                // Interpolate between adjacent frequency bins for smoother frequency mapping.
+                double binPosition = frequency * WindowSize / sampleRate;
+                int lowerBin = Math.Clamp((int)Math.Floor(binPosition), 0, spectrum[x].Length - 1);
+                int upperBin = Math.Min(lowerBin + 1, spectrum[x].Length - 1);
+                double fraction = Math.Clamp(binPosition - lowerBin, 0.0, 1.0);
+                double power = spectrum[x][lowerBin] + (spectrum[x][upperBin] - spectrum[x][lowerBin]) * fraction;
 
                 // get frequency power for selected bin
-                float power = spectrum[x][bin];
+                //float power = spectrum[x][bin];
 
 
                 // converts frequency power to decibels (dB)
@@ -278,6 +285,10 @@ public class SpectrogramRenderer //: IDisposable
         {
             return;
         }
+
+        // use higher quality interpolation when scaling
+        graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+        graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
         // if the track is enabled, draw the spectrogram normally. otherwise, it will
         // be in grayscale to show that the track is disabled

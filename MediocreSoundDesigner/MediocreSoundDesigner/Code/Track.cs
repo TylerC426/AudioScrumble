@@ -240,7 +240,16 @@ public class Track : IDisposable {
     }
 
     // play
-    public void Play() {
+    public void Play()
+    {
+        // resume playback if track is paused
+        if (outputDevice?.PlaybackState == PlaybackState.Paused)
+        {
+            outputDevice.Play();
+            return;
+        }
+
+        // create new playback session otherwise
         outputDevice?.Dispose();
         fileReader?.Dispose();
         SaveToTempFile();
@@ -249,10 +258,17 @@ public class Track : IDisposable {
         outputDevice.Init(fileReader);
         outputDevice.Play();
     }
-    public void Pause() {
+    public void Pause()
+    {
         outputDevice?.Pause();
     }
-    public void Reset() {
+    public void Reset()
+    {
+        // return playback to beginning
+        if (fileReader != null)
+        {
+            fileReader.Position = 0;
+        }
     }
     public int GetPlayheadPos() {
         return (int)((outputDevice?.GetPosition() ?? 0) / 4);

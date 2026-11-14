@@ -46,7 +46,18 @@ public class TrackManager {
     }
 
 	public void PlayAll() {
+        // combine tracks if and only if starting new playback session
+        if (pseudoCombinedTrack == null || pseudoCombinedTrack.State == PlaybackState.Stopped)
+        {
+            CombineTracks();
+        }
+
+        pseudoCombinedTrack.Play();
+    }
+    public void PlayAllFromBeginning()
+    {
         CombineTracks();
+        pseudoCombinedTrack.Reset();
         pseudoCombinedTrack.Play();
     }
     private void CombineTracks() {

@@ -245,12 +245,14 @@ public partial class FrmMain : Form
             btnPlay.Visible = true;
             lblPlayhead.Left = TRACK_HEADER_WIDTH + trackManager.GetPlayheadPos();
             lblPlayhead.Visible = true;
+            btnPlayFromBeginning.Visible = true;
         }
         else
         {
             btnPlay.BackgroundImage = null;
             btnPlay.Visible = false;
             lblPlayhead.Visible = false;
+            btnPlayFromBeginning.Visible = false;
         }
     }
 
@@ -882,7 +884,7 @@ public partial class FrmMain : Form
     {
         RedoLastEdit();
     }
-    
+
     /// Asks the user if they would like to save before closing.
     /// </summary>
     /// <param name="sender"></param>
@@ -894,8 +896,8 @@ public partial class FrmMain : Form
 
         // ask user if they want to save before closing
         DialogResult result = MessageBox.Show("Do you want to save your audio before closing?",
-                                              "Save Before Closing", 
-                                              MessageBoxButtons.YesNoCancel, 
+                                              "Save Before Closing",
+                                              MessageBoxButtons.YesNoCancel,
                                               MessageBoxIcon.Question);
 
         // user chooses cancel --> prevent application from closing
@@ -919,7 +921,7 @@ public partial class FrmMain : Form
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Audio file failed to save:\n{ex.Message}", "Save Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show($"Audio file failed to save:\n{ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
             }
         }
@@ -928,5 +930,12 @@ public partial class FrmMain : Form
             // user canceled the save --> prevent application from closing
             e.Cancel = true;
         }
+    }
+
+    private void btnPlayFromBeginning_Click(object sender, EventArgs e)
+    {
+        trackManager.PlayAllFromBeginning();
+        btnPlay.BackgroundImage = Resources.pause;
+        LoopTracks();
     }
 }
