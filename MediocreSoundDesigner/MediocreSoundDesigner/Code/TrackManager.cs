@@ -3,20 +3,20 @@
 namespace MediocreSoundDesigner; 
 
 public class TrackManager {
-  private Track pseudoCombinedTrack;
-  private Panel panContainer;
+    private Track pseudoCombinedTrack;
+    private Panel panContainer;
 
-  public List<Track> Tracks { get; private set; }
+    public List<Track> Tracks { get; private set; }
 	public Track SelectedTrack { get; private set; }
-  public int DrawTimescale { get; set; }
-  public PlaybackState State => pseudoCombinedTrack?.State ?? PlaybackState.Stopped;
+    public int DrawTimescale { get; set; }
+    public PlaybackState State => pseudoCombinedTrack?.State ?? PlaybackState.Stopped;
 
-  public TrackManager(Panel panContainer) {
+    public TrackManager(Panel panContainer) {
 		Tracks = new();
-    SelectedTrack = null;
-    pseudoCombinedTrack = null;
-    this.panContainer = panContainer;
-  }
+        SelectedTrack = null;
+        pseudoCombinedTrack = null;
+        this.panContainer = panContainer;
+    }
 
 	public void AddTrack(Track track) {
 		Tracks.Add(track);
@@ -28,49 +28,60 @@ public class TrackManager {
 
 	public void SelectTrack(Track track) {
 		SelectedTrack = track;
-    Tracks.ForEach(track => {
-      track.PanDrawSamples.BorderStyle = BorderStyle.None;
-      track.PanDrawSamples.BackColor = Color.DimGray;
-    });
-    track.PanDrawSamples.BorderStyle = BorderStyle.Fixed3D;
-    track.PanDrawSamples.BackColor = Color.Gray;
-  }
+        Tracks.ForEach(track => {
+            track.PanDrawSamples.BorderStyle = BorderStyle.None;
+            track.PanDrawSamples.BackColor = Color.DimGray;
+        });
+        track.PanDrawSamples.BorderStyle = BorderStyle.Fixed3D;
+        track.PanDrawSamples.BackColor = Color.Gray;
+    }
 
-  public void RedrawAll() {
-    Tracks.ForEach(track => track.PanDrawSamples.Invalidate());
-  }
+    public void RedrawAll() {
+        Tracks.ForEach(track => track.PanDrawSamples.Invalidate());
+    }
 
-  public void SaveToFile(string filename) {
-    CombineTracks();
-    pseudoCombinedTrack.SaveToFile(filename);
-  }
+    public void SaveToFile(string filename) {
+        CombineTracks();
+        pseudoCombinedTrack.SaveToFile(filename);
+    }
 
 	public void PlayAll() {
-    CombineTracks();
-    pseudoCombinedTrack.Play();
-  }
-  private void CombineTracks() {
-    pseudoCombinedTrack?.Dispose();
-    List<float> combinedSamples = new();
-    foreach (Track track in Tracks) {
-      if (track.IsDisabled) {
-        continue;
-      }
-      float[] trackSamples = (float[])track.GetAdjustedSamples().Clone();
-      for (int i = 0; i < trackSamples.Length; i++) {
-        if (combinedSamples.Count <= i) {
-          combinedSamples.Add(0);
+        // combine tracks if and only if starting new playback session
+        if (pseudoCombinedTrack == null || pseudoCombinedTrack.State == PlaybackState.Stopped)
+        {
+            CombineTracks();
         }
-        combinedSamples[i] += trackSamples[i];
-      }
+
+        pseudoCombinedTrack.Play();
     }
-    pseudoCombinedTrack = new(combinedSamples.ToArray());
-    pseudoCombinedTrack.LinkPanels(null, panContainer);
-  }
-  public void PauseAll() {
-    pseudoCombinedTrack?.Pause();
-  }
-  public int GetPlayheadPos() {
-    return (pseudoCombinedTrack?.GetPlayheadPos() ?? 0) / DrawTimescale;
-  }
+    public void PlayAllFromBeginning()
+    {
+        CombineTracks();
+        pseudoCombinedTrack.Reset();
+        pseudoCombinedTrack.Play();
+    }
+    private void CombineTracks() {
+        pseudoCombinedTrack?.Dispose();
+        List<float> combinedSamples = new();
+        foreach (Track track in Tracks) {
+            if (track.IsDisabled) {
+                continue;
+            }
+            float[] trackSamples = (float[])track.GetAdjustedSamples().Clone();
+            for (int i = 0; i < trackSamples.Length; i++) {
+                if (combinedSamples.Count <= i) {
+                    combinedSamples.Add(0);
+                }
+                combinedSamples[i] += trackSamples[i];
+            }
+        }
+        pseudoCombinedTrack = new(combinedSamples.ToArray());
+        pseudoCombinedTrack.LinkPanels(null, panContainer);
+    }
+    public void PauseAll() {
+        pseudoCombinedTrack?.Pause();
+    }
+    public int GetPlayheadPos() {
+        return (pseudoCombinedTrack?.GetPlayheadPos() ?? 0) / DrawTimescale;
+    }
 }

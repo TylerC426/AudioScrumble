@@ -38,6 +38,9 @@
             menuFileOpen = new ToolStripMenuItem();
             menuFileSave = new ToolStripMenuItem();
             menuEdit = new ToolStripMenuItem();
+            menuEditUndo = new ToolStripMenuItem();
+            menuEditRedo = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
             menuEditFlip = new ToolStripMenuItem();
             menuEditReverse = new ToolStripMenuItem();
             menuEditVolume = new ToolStripMenuItem();
@@ -56,6 +59,7 @@
             trkDrawTimescale = new TrackBar();
             colorDialog = new ColorDialog();
             LoopEnableButton = new Button();
+            btnPlayFromBeginning = new Button();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
@@ -131,10 +135,31 @@
             // 
             // menuEdit
             // 
-            menuEdit.DropDownItems.AddRange(new ToolStripItem[] { menuEditFlip, menuEditReverse, menuEditVolume, menuEditEliminateSilence });
+            menuEdit.DropDownItems.AddRange(new ToolStripItem[] { menuEditUndo, menuEditRedo, toolStripSeparator1, menuEditFlip, menuEditReverse, menuEditVolume, menuEditEliminateSilence });
             menuEdit.Name = "menuEdit";
             menuEdit.Size = new Size(58, 29);
             menuEdit.Text = "E&dit";
+            // 
+            // menuEditUndo
+            // 
+            menuEditUndo.Name = "menuEditUndo";
+            menuEditUndo.ShortcutKeys = Keys.Control | Keys.Z;
+            menuEditUndo.Size = new Size(256, 34);
+            menuEditUndo.Text = "Undo";
+            menuEditUndo.Click += menuEditUndo_Click;
+            // 
+            // menuEditRedo
+            // 
+            menuEditRedo.Name = "menuEditRedo";
+            menuEditRedo.ShortcutKeys = Keys.Control | Keys.Y;
+            menuEditRedo.Size = new Size(256, 34);
+            menuEditRedo.Text = "Redo";
+            menuEditRedo.Click += menuEditRedo_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(253, 6);
             // 
             // menuEditFlip
             // 
@@ -272,12 +297,23 @@
             LoopEnableButton.UseVisualStyleBackColor = false;
             LoopEnableButton.Click += LoopEnableButton_Click;
             // 
+            // btnPlayFromBeginning
+            // 
+            btnPlayFromBeginning.Location = new Point(841, 1102);
+            btnPlayFromBeginning.Name = "btnPlayFromBeginning";
+            btnPlayFromBeginning.Size = new Size(143, 167);
+            btnPlayFromBeginning.TabIndex = 9;
+            btnPlayFromBeginning.Text = "Restart";
+            btnPlayFromBeginning.UseVisualStyleBackColor = true;
+            btnPlayFromBeginning.Click += btnPlayFromBeginning_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(2291, 1305);
+            Controls.Add(btnPlayFromBeginning);
             Controls.Add(LoopEnableButton);
             Controls.Add(trkDrawTimescale);
             Controls.Add(btnPlay);
@@ -302,31 +338,35 @@
         #endregion
 
         private Panel panTracks;
-    private Label lblDebug;
-    private OpenFileDialog ofdLoadFile;
-    private MenuStrip menu;
-    private ToolStripMenuItem menuEdit;
-    private Button btnPlay;
-    private ToolStripMenuItem menuEditVolume;
-    private ToolStripMenuItem menuEditReverse;
-    private ToolStripMenuItem menuFile;
-    private ToolStripMenuItem menuFileOpen;
-    private ToolStripMenuItem menuFileSave;
-    private System.Windows.Forms.Timer tmrUpdate;
-    private ToolStripMenuItem menuGen;
-    private ToolStripMenuItem menuGenNoise;
-    private ToolStripMenuItem menuGenGradientNoise;
-    private ToolStripMenuItem menuEditFlip;
-    private SaveFileDialog sfdSaveFile;
-    private TrackBar trkDrawTimescale;
-    private ColorDialog colorDialog;
-    private ToolStripMenuItem menuEditEliminateSilence;
-    private Label lblPlayhead;
-    private ToolStripMenuItem menuGenRecord;
-    private ToolStripMenuItem helpToolStripMenuItem;
-    private Button LoopEnableButton;
+        private Label lblDebug;
+        private OpenFileDialog ofdLoadFile;
+        private MenuStrip menu;
+        private ToolStripMenuItem menuEdit;
+        private Button btnPlay;
+        private ToolStripMenuItem menuEditVolume;
+        private ToolStripMenuItem menuEditReverse;
+        private ToolStripMenuItem menuFile;
+        private ToolStripMenuItem menuFileOpen;
+        private ToolStripMenuItem menuFileSave;
+        private System.Windows.Forms.Timer tmrUpdate;
+        private ToolStripMenuItem menuGen;
+        private ToolStripMenuItem menuGenNoise;
+        private ToolStripMenuItem menuGenGradientNoise;
+        private ToolStripMenuItem menuEditFlip;
+        private SaveFileDialog sfdSaveFile;
+        private TrackBar trkDrawTimescale;
+        private ColorDialog colorDialog;
+        private ToolStripMenuItem menuEditEliminateSilence;
+        private Label lblPlayhead;
+        private ToolStripMenuItem menuGenRecord;
+        private ToolStripMenuItem helpToolStripMenuItem;
+        private Button LoopEnableButton;
         private ToolStripMenuItem addSilenceToolStripMenuItem;
         private ToolStripMenuItem addSilenceAsNewToolStripMenuItem;
         private ToolStripMenuItem addNoiseToTrackToolStripMenuItem;
+        private ToolStripMenuItem menuEditUndo;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem menuEditRedo;
+        private Button btnPlayFromBeginning;
     }
 }
