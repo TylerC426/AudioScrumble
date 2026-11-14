@@ -89,13 +89,13 @@ public partial class FrmMain : Form
         if (trackManager.State is NAudio.Wave.PlaybackState.Stopped or NAudio.Wave.PlaybackState.Paused)
         {
             trackManager.PlayAll();
-            btnPlay.BackgroundImage = Resources.pause;
+            btnPlay.BackgroundImage = Resources.pauseFromPlay;
             LoopTracks();
         }
         else
         {
             trackManager.PauseAll();
-            btnPlay.BackgroundImage = Resources.play;
+            btnPlay.BackgroundImage = Resources.playFromPause;
         }
     }
 
@@ -609,12 +609,12 @@ public partial class FrmMain : Form
         if (isLooping)
         {
             isLooping = false;
-            LoopEnableButton.BackColor = Color.Red;
+            LoopEnableButton.BackgroundImage = Resources.loopFalse;
         }
         else
         {
             isLooping = true;
-            LoopEnableButton.BackColor = Color.Green;
+            LoopEnableButton.BackgroundImage = Resources.loop;
         }
     }
 

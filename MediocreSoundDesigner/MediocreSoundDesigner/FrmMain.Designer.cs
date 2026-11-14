@@ -41,6 +41,7 @@
             menuEditFlip = new ToolStripMenuItem();
             menuEditReverse = new ToolStripMenuItem();
             menuEditVolume = new ToolStripMenuItem();
+            alterSpeedToolStripMenuItem = new ToolStripMenuItem();
             menuEditEliminateSilence = new ToolStripMenuItem();
             menuGen = new ToolStripMenuItem();
             menuGenRecord = new ToolStripMenuItem();
@@ -61,7 +62,6 @@
             LoopEnableButton = new Button();
             pnlTrackBackground = new Panel();
             pnlButtonBackground = new Panel();
-            alterSpeedToolStripMenuItem = new ToolStripMenuItem();
             panTracks.SuspendLayout();
             menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trkDrawTimescale).BeginInit();
@@ -144,28 +144,35 @@
             // menuEditFlip
             // 
             menuEditFlip.Name = "menuEditFlip";
-            menuEditFlip.Size = new Size(180, 22);
+            menuEditFlip.Size = new Size(172, 22);
             menuEditFlip.Text = "Flip";
             menuEditFlip.Click += menuEditFlip_Click;
             // 
             // menuEditReverse
             // 
             menuEditReverse.Name = "menuEditReverse";
-            menuEditReverse.Size = new Size(180, 22);
+            menuEditReverse.Size = new Size(172, 22);
             menuEditReverse.Text = "Reverse";
             menuEditReverse.Click += menuEditReverse_Click;
             // 
             // menuEditVolume
             // 
             menuEditVolume.Name = "menuEditVolume";
-            menuEditVolume.Size = new Size(180, 22);
+            menuEditVolume.Size = new Size(172, 22);
             menuEditVolume.Text = "Alter Volume...";
             menuEditVolume.Click += menuEditVolume_Click;
+            // 
+            // alterSpeedToolStripMenuItem
+            // 
+            alterSpeedToolStripMenuItem.Name = "alterSpeedToolStripMenuItem";
+            alterSpeedToolStripMenuItem.Size = new Size(172, 22);
+            alterSpeedToolStripMenuItem.Text = "Alter Speed...";
+            alterSpeedToolStripMenuItem.Click += alterSpeedToolStripMenuItem_Click;
             // 
             // menuEditEliminateSilence
             // 
             menuEditEliminateSilence.Name = "menuEditEliminateSilence";
-            menuEditEliminateSilence.Size = new Size(180, 22);
+            menuEditEliminateSilence.Size = new Size(172, 22);
             menuEditEliminateSilence.Text = "Eliminate Silence...";
             menuEditEliminateSilence.Click += menuEditEliminateSilence_Click;
             // 
@@ -250,16 +257,16 @@
             // 
             btnPlay.AutoSize = true;
             btnPlay.BackColor = Color.Transparent;
-            btnPlay.BackgroundImage = Properties.Resources.play;
+            btnPlay.BackgroundImage = Properties.Resources.playFromPause;
             btnPlay.BackgroundImageLayout = ImageLayout.Stretch;
             btnPlay.FlatAppearance.BorderSize = 0;
             btnPlay.FlatAppearance.MouseDownBackColor = Color.Transparent;
             btnPlay.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btnPlay.FlatStyle = FlatStyle.Flat;
             btnPlay.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnPlay.Location = new Point(25, 7);
+            btnPlay.Location = new Point(132, 15);
             btnPlay.Name = "btnPlay";
-            btnPlay.Size = new Size(93, 93);
+            btnPlay.Size = new Size(92, 81);
             btnPlay.TabIndex = 6;
             btnPlay.UseVisualStyleBackColor = false;
             btnPlay.Click += btnPlay_Click;
@@ -286,12 +293,15 @@
             // 
             // LoopEnableButton
             // 
-            LoopEnableButton.BackColor = Color.Red;
-            LoopEnableButton.Location = new Point(150, 18);
+            LoopEnableButton.BackColor = Color.Transparent;
+            LoopEnableButton.BackgroundImage = Properties.Resources.loopFalse;
+            LoopEnableButton.BackgroundImageLayout = ImageLayout.Stretch;
+            LoopEnableButton.FlatAppearance.BorderSize = 0;
+            LoopEnableButton.FlatStyle = FlatStyle.Flat;
+            LoopEnableButton.Location = new Point(265, 15);
             LoopEnableButton.Name = "LoopEnableButton";
-            LoopEnableButton.Size = new Size(101, 78);
+            LoopEnableButton.Size = new Size(84, 81);
             LoopEnableButton.TabIndex = 8;
-            LoopEnableButton.Text = "loop";
             LoopEnableButton.UseVisualStyleBackColor = false;
             LoopEnableButton.Click += LoopEnableButton_Click;
             // 
@@ -312,17 +322,10 @@
             pnlButtonBackground.BackColor = Color.FromArgb(41, 55, 71);
             pnlButtonBackground.Controls.Add(btnPlay);
             pnlButtonBackground.Controls.Add(LoopEnableButton);
-            pnlButtonBackground.Location = new Point(740, 667);
+            pnlButtonBackground.Location = new Point(628, 667);
             pnlButtonBackground.Name = "pnlButtonBackground";
-            pnlButtonBackground.Size = new Size(266, 110);
+            pnlButtonBackground.Size = new Size(378, 110);
             pnlButtonBackground.TabIndex = 10;
-            // 
-            // alterSpeedToolStripMenuItem
-            // 
-            alterSpeedToolStripMenuItem.Name = "alterSpeedToolStripMenuItem";
-            alterSpeedToolStripMenuItem.Size = new Size(180, 22);
-            alterSpeedToolStripMenuItem.Text = "Alter Speed...";
-            alterSpeedToolStripMenuItem.Click += alterSpeedToolStripMenuItem_Click;
             // 
             // FrmMain
             // 
