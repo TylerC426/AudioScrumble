@@ -3,8 +3,9 @@
 namespace MediocreSoundDesigner;
 
 public partial class FrmEditMaster : Form {
-  // fields
-  protected Track track;
+    // fields
+    protected Track track;
+    public event Action<Track> BeforeApply;
 
   // ctor
   public FrmEditMaster() {
@@ -23,28 +24,32 @@ public partial class FrmEditMaster : Form {
         }
   }
 
-  // sound
-  public virtual void SetSound(Track sound) {
-    this.track = sound;
-    Init();
-  }
+    // sound
+    public virtual void SetSound(Track sound) {
+        this.track = sound;
+        Init();
+    }
 
-  // gui
-  public void btnCancel_Click(object sender, EventArgs e) {
-    Cancel();
-    DialogResult = DialogResult.Cancel;
-    Close();
-  }
+    // gui
+    public void btnCancel_Click(object sender, EventArgs e) {
+        Cancel();
+        DialogResult = DialogResult.Cancel;
+        Close();
+    }
 
-  public void btnApply_Click(object sender, EventArgs e) {
-    Apply();
-    track.PanDrawSamples?.Invalidate();
-    DialogResult = DialogResult.OK;
-    Close();
-  }
+    public void btnApply_Click(object sender, EventArgs e) {
+        // notify listeners (FrmMain) before the track is modified
+        // ".Invoke(track)" means it is expecting a method that takes in track
+        BeforeApply?.Invoke(track);
 
-  // override in subclass if needed
-  protected virtual void Init() { }
-  protected virtual void Apply() { }
-  protected virtual void Cancel() { }
+        Apply();
+        track.PanDrawSamples?.Invalidate();
+        DialogResult = DialogResult.OK;
+        Close();
+    }
+
+    // override in subclass if needed
+    protected virtual void Init() { }
+    protected virtual void Apply() { }
+    protected virtual void Cancel() { }
 }
